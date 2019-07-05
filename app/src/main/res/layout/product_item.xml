@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/offset_16"
+    android:layout_row="7"
+    >
+
+
+    <TextView
+        android:id="@+id/product_item_name"
+        style="@style/Base.TextAppearance.AppCompat.Body2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
+        android:layout_column="0"
+        android:layout_gravity="left"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/reduce_button"
+        android:src="@drawable/ic_reduce_product"
+        android:layout_column="3"
+        android:background="@null"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_text_count"
+        android:gravity="center"
+        android:textSize="26sp"
+        android:text="1"
+        android:layout_column="4"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_button"
+        android:src="@drawable/ic_add_product"
+        android:background="@null"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete_product_button"
+        android:src="@drawable/ic_delete"
+        android:background="@null"
+        />
+
+
+
+</GridLayout>
