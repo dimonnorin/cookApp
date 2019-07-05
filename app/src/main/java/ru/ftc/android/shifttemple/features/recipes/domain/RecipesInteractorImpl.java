@@ -2,12 +2,10 @@ package ru.ftc.android.shifttemple.features.recipes.domain;
 
 import java.util.List;
 
-import ru.ftc.android.shifttemple.features.products.data.BooksRepository;
-import ru.ftc.android.shifttemple.features.products.domain.BooksInteractor;
-import ru.ftc.android.shifttemple.features.products.domain.model.Product;
 import ru.ftc.android.shifttemple.features.products.domain.model.Success;
 import ru.ftc.android.shifttemple.features.recipes.data.RecipesRepository;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 import ru.ftc.android.shifttemple.network.Carry;
 
 /**
@@ -25,7 +23,7 @@ public final class RecipesInteractorImpl implements RecipesInteractor {
     }
 
     @Override
-    public void loadRecipes(Carry<List<Recipe>> carry) {
+    public void loadRecipes(Carry<List<ShortRecipe>> carry) {
         repository.loadRecipes(carry);
     }
 
@@ -35,8 +33,8 @@ public final class RecipesInteractorImpl implements RecipesInteractor {
     }
 
     @Override
-    public void createRecipe(Recipe recipe, Carry<Recipe> carry) {
-        repository.createRecipe(recipe, carry);
+    public void createRecipe(ShortRecipe shortRecipe, Carry<ShortRecipe> carry) {
+        repository.createRecipe(shortRecipe, carry);
     }
 
     @Override

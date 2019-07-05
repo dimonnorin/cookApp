@@ -2,9 +2,9 @@ package ru.ftc.android.shifttemple.features.recipes.data;
 
 import java.util.List;
 
-import ru.ftc.android.shifttemple.features.products.domain.model.Product;
 import ru.ftc.android.shifttemple.features.products.domain.model.Success;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 import ru.ftc.android.shifttemple.network.Carry;
 
 /**
@@ -22,7 +22,7 @@ public final class RecipesRepositoryImpl implements RecipesRepository {
     }
 
     @Override
-    public void loadRecipes(Carry<List<Recipe>> carry) {
+    public void loadRecipes(Carry<List<ShortRecipe>> carry) {
         dataSource.getRecipes(carry);
     }
 
@@ -32,8 +32,8 @@ public final class RecipesRepositoryImpl implements RecipesRepository {
     }
 
     @Override
-    public void createRecipe(Recipe recipe, Carry<Recipe> carry) {
-        dataSource.createRecipe(recipe, carry);
+    public void createRecipe(ShortRecipe shortRecipe, Carry<ShortRecipe> carry) {
+        dataSource.createRecipe(shortRecipe, carry);
     }
 
     @Override

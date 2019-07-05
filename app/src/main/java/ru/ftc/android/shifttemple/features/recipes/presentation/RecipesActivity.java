@@ -14,7 +14,7 @@ import ru.ftc.android.shifttemple.R;
 import ru.ftc.android.shifttemple.features.BaseActivity;
 import ru.ftc.android.shifttemple.features.MvpPresenter;
 import ru.ftc.android.shifttemple.features.MvpView;
-import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 
 
 public class RecipesActivity extends BaseActivity implements RecipesView {
@@ -78,14 +78,14 @@ public class RecipesActivity extends BaseActivity implements RecipesView {
 
         adapter = new RecipeAdapter(this, new RecipeAdapter.RecipeListener() {
             @Override
-            public void onRecipeClick(Recipe recipe) {
+            public void onRecipeClick(ShortRecipe shortRecipe) {
                 //TODO  Аня
-                //presenter.
+                presenter.loadRecipeData(shortRecipe);
             }
 
             @Override
-            public void onDeleteRecipe(Recipe recipe) {
-                //presenter.onRecipeDelete(recipe);
+            public void onDeleteRecipe(ShortRecipe shortRecipe) {
+                //presenter.onRecipeDelete(shortRecipe);
             }
         });
 
@@ -103,7 +103,7 @@ public class RecipesActivity extends BaseActivity implements RecipesView {
     }
 
     @Override
-    public void startRecipeActivity(Recipe recipe) {
+    public void startRecipeActivity(ShortRecipe shortRecipe) {
 
     }
 
@@ -113,7 +113,7 @@ public class RecipesActivity extends BaseActivity implements RecipesView {
     }
 
     @Override
-    public void showRecipesList(List<Recipe> list) {
+    public void showRecipesList(List<ShortRecipe> list) {
         adapter.setProducts(list);
     }
 

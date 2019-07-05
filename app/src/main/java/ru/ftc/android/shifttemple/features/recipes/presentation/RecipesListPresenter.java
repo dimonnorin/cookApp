@@ -2,14 +2,13 @@ package ru.ftc.android.shifttemple.features.recipes.presentation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import ru.ftc.android.shifttemple.features.MvpPresenter;
-import ru.ftc.android.shifttemple.features.products.domain.BooksInteractor;
 import ru.ftc.android.shifttemple.features.products.domain.model.Product;
 import ru.ftc.android.shifttemple.features.products.domain.model.Success;
 import ru.ftc.android.shifttemple.features.recipes.domain.RecipesInteractor;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 import ru.ftc.android.shifttemple.network.Carry;
 
 /**
@@ -24,7 +23,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     private final RecipesInteractor interactor;
 
     //for test without network
-    private List<Recipe> recipesData = new ArrayList<>();
+    private List<ShortRecipe> recipesData = new ArrayList<>();
 
     RecipesListPresenter(RecipesInteractor interactor) {
         this.interactor = interactor;
@@ -33,14 +32,14 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     @Override
     protected void onViewReady() {
         //TODO Статически заданные начальные поля продуктов, вызывается при переходе на активити
-        recipesData.add(new Recipe("First"));
+        //recipesData.add(new ShortRecipe("First"));
         loadRecipes();
     }
 
 
     //TODO реакция на взаимодействие с продуктом
-    void onRecipeDelete(Recipe recipe) {
-        String id = String.valueOf(recipe.getId());
+    void onRecipeDelete(ShortRecipe shortRecipe) {
+        String id = String.valueOf(shortRecipe.getId());
         interactor.deleteRecipe(id, new Carry<Success>(){
 
             @Override
@@ -56,9 +55,9 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
     }
 
-    void loadRecipeData(Recipe recipe){
-        String id = Integer.toString(recipe.getId());
-        interactor.loadRecipe(id,new Carry<Recipe>(){
+    void loadRecipeData(ShortRecipe shortRecipe){
+
+        interactor.loadRecipe(shortRecipe.getId(),new Carry<Recipe>(){
             @Override
             public void onSuccess(Recipe result) {
                 //view.startRecipeActivity();
@@ -71,11 +70,11 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
         });
     }
 
-    void onRecipeCreate(Recipe recipe) {
+    void onRecipeCreate(ShortRecipe shortRecipe) {
 
-        interactor.createRecipe(recipe, new Carry<Recipe>(){
+        interactor.createRecipe(shortRecipe, new Carry<ShortRecipe>(){
             @Override
-            public void onSuccess(Recipe result) {
+            public void onSuccess(ShortRecipe result) {
 
             }
 
@@ -91,11 +90,12 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     private void loadRecipes() {
         view.showRecipesList(recipesData);
 
-        interactor.loadRecipes(new Carry<List<Recipe>>(){
+        interactor.loadRecipes(new Carry<List<ShortRecipe>>(){
 
             @Override
-            public void onSuccess(List<Recipe> result) {
-                //view.showRecipesList(result);
+            public void onSuccess(List<ShortRecipe> result) {
+
+                view.showRecipesList(result);
             }
 
             @Override

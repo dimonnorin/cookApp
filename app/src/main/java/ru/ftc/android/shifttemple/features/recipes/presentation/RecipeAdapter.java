@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.ftc.android.shifttemple.R;
-import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 
 final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolder> {
 
-    private final List<Recipe> products = new ArrayList<>();
+    private final List<ShortRecipe> products = new ArrayList<>();
     private final LayoutInflater inflater;
     private final RecipeListener productListener;
     private final Animation clickAnimation;//TODO click anim
@@ -51,9 +51,9 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
         return products.size();
     }
 
-    public void setProducts(List<Recipe> recipeList) {
+    public void setProducts(List<ShortRecipe> shortRecipeList) {
         products.clear();
-        products.addAll(recipeList);
+        products.addAll(shortRecipeList);
         notifyDataSetChanged();
     }
 
@@ -75,14 +75,14 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
             //bookAuthorView = view.findViewById(R.id.book_item_author);
         }
 
-        void bind(final Recipe recipe) {
+        void bind(final ShortRecipe shortRecipe) {
 
-            recipeName.setText(recipe.getName());
+            recipeName.setText(shortRecipe.getTitle());
 
             recipeName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    recipeListener.onRecipeClick(recipe);
+                    recipeListener.onRecipeClick(shortRecipe);
                     Log.println(Log.DEBUG, "Test","On click");
                 }
             });
@@ -90,7 +90,7 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    recipeListener.onDeleteRecipe(recipe);
+                    recipeListener.onDeleteRecipe(shortRecipe);
                 }
             });
 
@@ -109,9 +109,9 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
     interface RecipeListener {
 
 
-        void onRecipeClick(Recipe recipe);
+        void onRecipeClick(ShortRecipe shortRecipe);
 
-        void onDeleteRecipe(Recipe recipe);
+        void onDeleteRecipe(ShortRecipe shortRecipe);
 
         /*void onProductTypeDelete(Product product);
 

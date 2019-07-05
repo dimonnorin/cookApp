@@ -2,50 +2,38 @@ package ru.ftc.android.shifttemple.features.recipes.domain.model;
 
 import java.util.List;
 
-public class Recipe {
-    private String name;
-    private String description;
-    private List<String> ingredients;
-    private int id;
+import ru.ftc.android.shifttemple.features.login.domain.model.User;
 
-    public Recipe(String name){
-        this.name = name;
+public class Recipe extends ShortRecipe {
+
+
+    private String creator;
+
+    private List<Ingredient> ingredients;
+
+    private List<User> members;
+
+    public String getCreator() {
+        return creator;
     }
 
-    public List<String> getIngredients() {
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public Recipe()
-    {
-
+    public List<User> getMembers() {
+        return members;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setMembers(List<User> members) {
+        this.members = members;
     }
 }

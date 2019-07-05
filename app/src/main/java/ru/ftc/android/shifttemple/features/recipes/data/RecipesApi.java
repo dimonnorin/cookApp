@@ -6,12 +6,11 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import ru.ftc.android.shifttemple.features.products.domain.model.Product;
 import ru.ftc.android.shifttemple.features.products.domain.model.Success;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 
 /**
  * Created: samokryl
@@ -25,7 +24,7 @@ public interface RecipesApi {
     @Query к параметру метода. Они автоматически добавляются в конце URL-адреса.*/
 
     @GET("recipes")
-    Call<List<Recipe>> getRecipesList();
+    Call<List<ShortRecipe>> getRecipesList();
 
     @GET("recipe/{id}")// String id замещает {id}
     Call<Recipe> getRecipe(@Path("id") String id);
@@ -35,7 +34,7 @@ public interface RecipesApi {
     Call<Success> updateRecipe(@Path("id") String id);*/
 
     @POST("recipe")//Body использует объект product в качестве тела запроса,отправляем его
-    Call<Recipe> createRecipe(@Body Recipe recipe);
+    Call<ShortRecipe> createRecipe(@Body ShortRecipe shortRecipe);
 
     @DELETE("recipe/{id}")
     Call<Success> deleteRecipe(@Path("id") String id);
