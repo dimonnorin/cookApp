@@ -142,6 +142,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         presenter.attachView(this);
+        presenter.loadRecipes();
     }
 
     @Override

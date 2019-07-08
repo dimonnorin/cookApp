@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /*import com.example.recipe.model.Ingredient;
 import com.example.recipe.model.IngredientAdapter;
@@ -20,7 +21,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ru.ftc.android.shifttemple.App;
 import ru.ftc.android.shifttemple.R;
@@ -42,6 +45,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
     private List<Ingredient> ingredients;
     private Recipe recipe;
     private RecipesInteractor interactor;
+    private Set<Integer> addedIngredientNums;
 
 
 
@@ -56,6 +60,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_recipe);
         recipe = new Recipe();
         ingredients = new ArrayList<>();
+        addedIngredientNums = new HashSet<>();
         initView();
     }
 
@@ -67,14 +72,31 @@ public class CreateRecipeActivity extends AppCompatActivity {
         EditText editDescription = findViewById(R.id.description);
         EditText editIngredientsName = findViewById(R.id.ingredient_name);
         EditText editIngredientsCount = findViewById(R.id.ingredient_count);
-        recipe.setTitle(editName.getText().toString());
+
+        String title  = editName.getText().toString().trim();
+        if(title.equals("")){
+            Toast.makeText(this, "Enter recipe name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        recipe.setTitle(title);
         recipe.setDescription(editDescription.getText().toString());
         ingredients = adapter.getIngredients();
 
+        if(ingredients.isEmpty()){
+            Toast.makeText(this, "Add ingredients!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         for (int i = 0; i < ingredients.size(); ++i) {
+
             ingredients.get(i).setName(editIngredientsName.getText().toString());
-            ingredients.get(i).setCount(Integer.parseInt(editIngredientsCount.getText().toString()));
+            try {
+                ingredients.get(i).setCount(Integer.parseInt(editIngredientsCount.getText().toString()));
+            }catch (NumberFormatException exc){
+                Toast.makeText(this, "Wrong count number in " + ingredients.get(i).getName(), Toast.LENGTH_SHORT).show();
+                return;
+            }
             //recipe.setIngredients(ingredients.get(i));
         }
         recipe.setIngredients(ingredients);
@@ -114,7 +136,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
                 .getRetrofit()
                 .create(RecipesApi.class);//создаем api а основе возможных запросов и url
 
-
+        //TODO вынести в Api
         //api.getRecipe("fg").execute();execute immediately
         //запросы с RestApi
         final RecipesDataSource dataSource = new RecipesDataSourceImpl(api);
@@ -166,7 +188,9 @@ public class CreateRecipeActivity extends AppCompatActivity {
                                                         int id) {
                                         ingredients.clear();
                                         for (int i = 0; i < checkProductsName.length; i++){
-                                            if (mCheckedItems[i]){
+                                            if (mCheckedItems[i] && !addedIngredientNums.contains(i)){
+                                                Log.println(Log.DEBUG,"Test","!contains");
+                                                addedIngredientNums.add(i);
                                                 ingredients.add(new Ingredient(checkProductsName[i]));
                                             }
                                         }

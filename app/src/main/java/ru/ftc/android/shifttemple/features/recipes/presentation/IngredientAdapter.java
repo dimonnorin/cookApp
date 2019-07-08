@@ -43,7 +43,6 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
     }
 
     public void setItems(Collection<Ingredient> tweets) {
-        //clear?
         ingredients.addAll(tweets);
         notifyDataSetChanged();
     }
@@ -72,7 +71,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
         }
         void bind (final Ingredient ingredient) {
             ingredientNameView.setText(ingredient.getName());
-            ingredientCountView.setText(Integer.toString(ingredient.getCount()));
+            ingredientCountView.setText("1");
         }
 
     }

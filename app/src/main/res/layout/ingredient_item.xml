@@ -19,6 +19,7 @@
         android:id="@+id/ingredient_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
         android:lines="1"
         android:minEms="5"
         android:maxEms="5"

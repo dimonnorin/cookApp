@@ -103,7 +103,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
         view.showRecipesList(recipesData);
 
 
-        /*interactor.loadRecipes(new Carry<List<ShortRecipe>>(){
+        interactor.loadRecipes(new Carry<List<ShortRecipe>>(){
 
             @Override
             public void onSuccess(List<ShortRecipe> result) {
@@ -115,7 +115,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
             public void onFailure(Throwable throwable) {
 
             }
-        });*/
+        });
     }
 
 

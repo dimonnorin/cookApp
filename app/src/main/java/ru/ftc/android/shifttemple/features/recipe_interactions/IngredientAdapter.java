@@ -2,6 +2,7 @@ package ru.ftc.android.shifttemple.features.recipe_interactions;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -80,19 +82,26 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
         }
         void bind (final Ingredient ingredient) {
             ingredientName.setText(ingredient.getName());
-            addCount.setText("0");
+            addCount.setText("1");
             String relation = ingredient.getInStock() + "/" + ingredient.getCount();
             ingredientRelation.setText(relation);
 
             buttonAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int count = 0;
-                    if(addCount.getText()!= null){
-                        count = Integer.valueOf(addCount.getText().toString());
+                    /*if(addCount.getText()== null){
+                        Log.println(Log.WARN, "Test", "null");
+                        addCount.setText("0");
+                        return;
+                    }*/
+                    String value = addCount.getText().toString();
+
+                    try {
+                        ingredientListener.onAddIngredient(ingredient, Integer.parseInt(value));
+                    }catch (NumberFormatException exc){
+                        ingredientListener.onError("Incorrect count number.");
+                        addCount.setText("1");
                     }
-                    //TODO обработка точки
-                    ingredientListener.onAddIngredient(ingredient, count);
                 }
             });
 
@@ -106,7 +115,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
 
         void onAddIngredient(Ingredient ingredient, int count);
 
-
+        void onError(String message);
 
     }
 
