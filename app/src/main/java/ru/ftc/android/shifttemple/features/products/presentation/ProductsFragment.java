@@ -59,10 +59,10 @@ public class ProductsFragment extends Fragment implements ProductListView {
         return fragmentView;
     }
 
-    /*public void setProducts(List<Product> list) {
+    /*public void setRecipes(List<Product> list) {
         Log.println(Log.DEBUG, "Test","Set product");
         if(adapter != null){
-            adapter.setProducts(list);
+            adapter.setRecipes(list);
             return;
         }
         products = list;
@@ -174,7 +174,7 @@ public class ProductsFragment extends Fragment implements ProductListView {
                 presenter.onBookLongClicked(product);
             }*/
         });
-        //adapter.setProducts(products);
+        //adapter.setRecipes(products);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

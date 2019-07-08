@@ -1,4 +1,4 @@
-package ru.ftc.android.shifttemple.features.recipes.presentation;
+package ru.ftc.android.shifttemple.features.recipe_interactions;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -21,14 +22,16 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
 {
     private final List<Ingredient> ingredients = new ArrayList<>();
     private final LayoutInflater inflater;
+    private final IngredientListener ingredientListener;
 
-    IngredientAdapter(Context context) {
+    IngredientAdapter(Context context, IngredientListener ingredientListener) {
         inflater = LayoutInflater.from(context);
+        this.ingredientListener = ingredientListener;
     }
     @Override
     public IngredientHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater
-                .inflate(R.layout.ingredient_item, parent, false);
+                .inflate(R.layout.ingredient_present_item, parent, false);
         return new IngredientHolder(view);
     }
 
@@ -44,6 +47,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
 
     public void setItems(Collection<Ingredient> tweets) {
         //clear?
+        ingredients.clear();
         ingredients.addAll(tweets);
         notifyDataSetChanged();
     }
@@ -59,21 +63,53 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
 
 
     class IngredientHolder extends RecyclerView.ViewHolder {
-        private final EditText ingredientNameView;
-        private final EditText ingredientCountView;
-        //private final Button button;
+        private final TextView ingredientName;
+        private final TextView ingredientRelation;
+        private final ImageButton buttonAdd;
+        private final EditText addCount;
 
 
         IngredientHolder(View view) {
             super(view);
-            ingredientNameView = view.findViewById(R.id.ingredient_name);
-            ingredientCountView = view.findViewById(R.id.ingredient_count);
+            ingredientName = view.findViewById(R.id.ingredient_name);
+            ingredientRelation = view.findViewById(R.id.count_relation);
+            buttonAdd = view.findViewById(R.id.add_ingredient_button);
+            addCount = view.findViewById(R.id.add_count);
+
             //button = view.findViewById(R.id.delete_ingredient_button);
         }
         void bind (final Ingredient ingredient) {
-            ingredientNameView.setText(ingredient.getName());
-            ingredientCountView.setText(Integer.toString(ingredient.getCount()));
+            ingredientName.setText(ingredient.getName());
+            addCount.setText("0");
+            String relation = ingredient.getInStock() + "/" + ingredient.getCount();
+            ingredientRelation.setText(relation);
+
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int count = 0;
+                    if(addCount.getText()!= null){
+                        count = Integer.valueOf(addCount.getText().toString());
+                    }
+                    //TODO обработка точки
+                    ingredientListener.onAddIngredient(ingredient, count);
+                }
+            });
+
         }
 
     }
+
+
+    interface IngredientListener{
+
+
+        void onAddIngredient(Ingredient ingredient, int count);
+
+
+
+    }
+
+
+
 }

@@ -12,7 +12,7 @@ public class ShortRecipe {
         this.title = title;
     }
 
-    /*public List<String> getIngredients() {
+    /*public List<String> getMembers() {
         return ingredients;
     }*/
 

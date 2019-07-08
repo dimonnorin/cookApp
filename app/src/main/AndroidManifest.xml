@@ -9,8 +9,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".features.recipes.presentation.CreateRecipeActivity"></activity>
-        <activity android:name=".features.recipes.presentation.RecipesActivity" />
+        <activity android:name=".features.recipe_interactions.RecipeActivity"></activity>
+        <activity android:name=".features.recipes.presentation.CreateRecipeActivity" />
+        <activity android:name=".features.recipes.presentation.RecipesListActivity" />
         <activity android:name=".features.login.presentation.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -32,8 +32,8 @@ public final class RecipesRepositoryImpl implements RecipesRepository {
     }
 
     @Override
-    public void createRecipe(ShortRecipe shortRecipe, Carry<ShortRecipe> carry) {
-        dataSource.createRecipe(shortRecipe, carry);
+    public void createRecipe(Recipe recipe, Carry<Recipe> carry) {
+        dataSource.createRecipe(recipe, carry);
     }
 
     @Override

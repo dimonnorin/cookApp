@@ -1,5 +1,7 @@
 package ru.ftc.android.shifttemple.features.recipes.presentation;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +34,18 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     @Override
     protected void onViewReady() {
         //TODO Статически заданные начальные поля продуктов, вызывается при переходе на активити
-        //recipesData.add(new ShortRecipe("First"));
+        //Log.println(Log.DEBUG, "Test", "onViewReady");
+        recipesData.add(new ShortRecipe("Pancakes"));
+        recipesData.add(new ShortRecipe("Chocolate"));
         loadRecipes();
     }
 
 
     //TODO реакция на взаимодействие с продуктом
     void onRecipeDelete(ShortRecipe shortRecipe) {
-        String id = String.valueOf(shortRecipe.getId());
-        interactor.deleteRecipe(id, new Carry<Success>(){
+        Log.println(Log.DEBUG, "Test", "onRecipeDelete");
+
+        interactor.deleteRecipe(shortRecipe.getId(), new Carry<Success>(){
 
             @Override
             public void onSuccess(Success result) {
@@ -56,7 +61,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     }
 
     void loadRecipeData(ShortRecipe shortRecipe){
-
+        Log.println(Log.DEBUG, "Test", "loadRecipeData");
         interactor.loadRecipe(shortRecipe.getId(),new Carry<Recipe>(){
             @Override
             public void onSuccess(Recipe result) {
@@ -70,9 +75,14 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
         });
     }
 
+    //DEB
     void onRecipeCreate(ShortRecipe shortRecipe) {
+        recipesData.add(shortRecipe);
+        Log.println(Log.DEBUG, "Test", "loadRecipeData");
+        loadRecipes();
 
-        interactor.createRecipe(shortRecipe, new Carry<ShortRecipe>(){
+        //createRecipe будет использоваться в другой Activity это просто тест
+        /*interactor.createRecipe(shortRecipe, new Carry<ShortRecipe>(){
             @Override
             public void onSuccess(ShortRecipe result) {
 
@@ -82,15 +92,18 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
             public void onFailure(Throwable throwable) {
 
             }
-        });
+        });*/
     }
 
 
 
-    private void loadRecipes() {
+    void loadRecipes() {
+        Log.println(Log.DEBUG, "Test", "loadRecipes");
+        //DEB
         view.showRecipesList(recipesData);
 
-        interactor.loadRecipes(new Carry<List<ShortRecipe>>(){
+
+        /*interactor.loadRecipes(new Carry<List<ShortRecipe>>(){
 
             @Override
             public void onSuccess(List<ShortRecipe> result) {
@@ -102,7 +115,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
             public void onFailure(Throwable throwable) {
 
             }
-        });
+        });*/
     }
 
 

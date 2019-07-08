@@ -34,8 +34,8 @@ public final class RecipesDataSourceImpl implements RecipesDataSource {
     }
 
     @Override
-    public void createRecipe(ShortRecipe shortRecipe, Carry<ShortRecipe> carry) {
-        recipesApi.createRecipe(shortRecipe).enqueue(new DefaultCallback(carry));
+    public void createRecipe(Recipe recipe, Carry<Recipe> carry) {
+        recipesApi.createRecipe(recipe).enqueue(new DefaultCallback(carry));
     }
 
     @Override

@@ -19,7 +19,7 @@ public interface RecipesRepository {
 
     void loadRecipe(String id, Carry<Recipe> carry);
 
-    void createRecipe(ShortRecipe shortRecipe, Carry<ShortRecipe> carry);
+    void createRecipe(Recipe recipe, Carry<Recipe> carry);
 
     void deleteRecipe(String id, Carry<Success> carry);
 }

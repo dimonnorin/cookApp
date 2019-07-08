@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -14,28 +15,52 @@ import android.widget.EditText;
 import com.example.recipe.model.IngredientAdapter;
 import com.example.recipe.model.Recipe;*/
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import ru.ftc.android.shifttemple.App;
 import ru.ftc.android.shifttemple.R;
+import ru.ftc.android.shifttemple.features.recipes.data.RecipesApi;
+import ru.ftc.android.shifttemple.features.recipes.data.RecipesDataSource;
+import ru.ftc.android.shifttemple.features.recipes.data.RecipesDataSourceImpl;
+import ru.ftc.android.shifttemple.features.recipes.data.RecipesRepository;
+import ru.ftc.android.shifttemple.features.recipes.data.RecipesRepositoryImpl;
+import ru.ftc.android.shifttemple.features.recipes.domain.RecipesInteractor;
+import ru.ftc.android.shifttemple.features.recipes.domain.RecipesInteractorImpl;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Ingredient;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.network.Carry;
 
 public class CreateRecipeActivity extends AppCompatActivity {
-
+    //TODO check for empty name, ingredients count
     private RecyclerView recyclerView;
     private IngredientAdapter adapter;
-    private List<Ingredient> list;
-    private Recipe recipe = new Recipe();
+    private List<Ingredient> ingredients;
+    private Recipe recipe;
+    private RecipesInteractor interactor;
+
+
+
+    //DEB
+    final private Gson gson = new Gson();
+    final public static int GET_RECIPE_CODE = 1;
+    final public static String RESOURCE_NAME = "recipe";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
+        recipe = new Recipe();
+        ingredients = new ArrayList<>();
         initView();
-
     }
+
+
+
 
     public void onClick(View view) {
         EditText editName = findViewById(R.id.name);
@@ -44,35 +69,68 @@ public class CreateRecipeActivity extends AppCompatActivity {
         EditText editIngredientsCount = findViewById(R.id.ingredient_count);
         recipe.setTitle(editName.getText().toString());
         recipe.setDescription(editDescription.getText().toString());
-        list = adapter.getIngredients();
+        ingredients = adapter.getIngredients();
 
-        Intent ini = new Intent();
-        
-        for (int i = 0; i < list.size(); ++i) {
-            list.get(i).setName(editIngredientsName.getText().toString());
-            list.get(i).setCount(Integer.parseInt(editIngredientsCount.getText().toString()));
-            //recipe.setIngredients(list.get(i));
+
+        for (int i = 0; i < ingredients.size(); ++i) {
+            ingredients.get(i).setName(editIngredientsName.getText().toString());
+            ingredients.get(i).setCount(Integer.parseInt(editIngredientsCount.getText().toString()));
+            //recipe.setIngredients(ingredients.get(i));
         }
-        recipe.setIngredients(list);
+        recipe.setIngredients(ingredients);
+
+
+        //TODO когда появиться сервер
+        //
+        Log.println(Log.DEBUG, "Test", "send created Recipe");
+        interactor.createRecipe(recipe, new Carry<Recipe>(){
+            @Override
+            public void onSuccess(Recipe result) {
+
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
+
+        //DEB
+        Intent intent = new Intent();
+        intent.putExtra(RESOURCE_NAME,gson.toJson((recipe)));
+        setResult(RESULT_OK, intent);
+        finish();
+
+
     }
 
     private void initView() {
-        adapter = new IngredientAdapter();
-        recyclerView = findViewById(R.id.ingredient);
+        adapter = new IngredientAdapter(this);
+        recyclerView = findViewById(R.id.ingredients);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        final RecipesApi api = App.getRetrofitProvider(this)
+                .getRetrofit()
+                .create(RecipesApi.class);//создаем api а основе возможных запросов и url
+
+
+        //api.getRecipe("fg").execute();execute immediately
+        //запросы с RestApi
+        final RecipesDataSource dataSource = new RecipesDataSourceImpl(api);
+        final RecipesRepository repository = new RecipesRepositoryImpl(dataSource);
+        interactor = new RecipesInteractorImpl(repository);
     }
 
-    public void loadIngredients(String s) {
-        Collection<Ingredient> ingredients = getIngredients(s);
+    public void loadIngredients() {
         adapter.setItems(ingredients);
     }
 
-    private Collection<Ingredient> getIngredients(String s) {
+    /*private Collection<Ingredient> getMembers(String s) {
         return Arrays.asList(
                 new Ingredient(s)
         );
-    }
+    }*/
 
     private final int ID_CHECK_PRODUCTS = 0;
 
@@ -106,10 +164,13 @@ public class CreateRecipeActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
+                                        ingredients.clear();
                                         for (int i = 0; i < checkProductsName.length; i++){
-                                            if (mCheckedItems[i])
-                                                loadIngredients(checkProductsName[i]);
+                                            if (mCheckedItems[i]){
+                                                ingredients.add(new Ingredient(checkProductsName[i]));
+                                            }
                                         }
+                                        loadIngredients();
                                     }})
                         .setNegativeButton("Отмена",
                                 new DialogInterface.OnClickListener() {
@@ -121,7 +182,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         return builder.create();
     }
 
-    public void onButtonClick(View view){
+    public void onAddIngredient(View view){
         Dialog dialog = onCreateDialog(ID_CHECK_PRODUCTS);
         dialog.show();
     }

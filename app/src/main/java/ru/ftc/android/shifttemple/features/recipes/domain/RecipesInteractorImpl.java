@@ -33,8 +33,8 @@ public final class RecipesInteractorImpl implements RecipesInteractor {
     }
 
     @Override
-    public void createRecipe(ShortRecipe shortRecipe, Carry<ShortRecipe> carry) {
-        repository.createRecipe(shortRecipe, carry);
+    public void createRecipe(Recipe recipe, Carry<Recipe> carry) {
+        repository.createRecipe(recipe, carry);
     }
 
     @Override

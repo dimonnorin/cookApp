@@ -34,7 +34,8 @@ public interface RecipesApi {
     Call<Success> updateRecipe(@Path("id") String id);*/
 
     @POST("recipe")//Body использует объект product в качестве тела запроса,отправляем его
-    Call<ShortRecipe> createRecipe(@Body ShortRecipe shortRecipe);
+    Call<Recipe> createRecipe(@Body Recipe recipe);//TODO возврат id?
+    //TODO или использовать в том числе для обновления информации о рецепте
 
     @DELETE("recipe/{id}")
     Call<Success> deleteRecipe(@Path("id") String id);

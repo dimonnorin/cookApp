@@ -13,9 +13,8 @@ import ru.ftc.android.shifttemple.R;
 import ru.ftc.android.shifttemple.features.BaseActivity;
 import ru.ftc.android.shifttemple.features.MvpPresenter;
 import ru.ftc.android.shifttemple.features.MvpView;
-import ru.ftc.android.shifttemple.features.main.MainActivity;
 import ru.ftc.android.shifttemple.features.login.domain.model.User;
-import ru.ftc.android.shifttemple.features.recipes.presentation.RecipesActivity;
+import ru.ftc.android.shifttemple.features.recipes.presentation.RecipesListActivity;
 
 public final class LoginActivity extends BaseActivity implements LoginView {
 
@@ -55,7 +54,7 @@ public final class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void openRecipesListScreen() {
-        RecipesActivity.start(this);
+        RecipesListActivity.start(this);
     }
 
     @Override
