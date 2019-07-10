@@ -7,17 +7,17 @@ import ru.ftc.android.shifttemple.features.login.domain.model.User;
 public class Recipe extends ShortRecipe {
 
 
-    private String creator;
+    private User creator;
 
     private List<Ingredient> ingredients;
 
     private List<User> members;
 
-    public String getCreator() {
+    public User getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(User creator) {
         this.creator = creator;
     }
 

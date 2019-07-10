@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -35,6 +37,8 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
     private ImageButton updateButton;
 
+    private ProgressBar progressBar;
+
     private Gson gson = new Gson();
 
 
@@ -58,8 +62,6 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +73,9 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.println(Log.DEBUG,"Test", "On result");
+        presenter.loadRecipes();
+
+        //DEB
         if (data == null) {
             return;
         }
@@ -82,7 +87,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
             }
         }
         //PROD
-        //presenter.loadRecipes();
+        presenter.loadRecipes();
         Log.println(Log.DEBUG,"Test", "On create recipe");
         presenter.onRecipeCreate(recipe);
     }
@@ -96,6 +101,8 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
         createButton = findViewById(R.id.create_product_button);
 
         updateButton  = findViewById(R.id.update_button);
+
+        progressBar = findViewById(R.id.progress_bar);
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -147,7 +154,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -157,7 +164,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -168,6 +175,6 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

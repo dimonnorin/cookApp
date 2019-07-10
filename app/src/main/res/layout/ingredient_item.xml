@@ -30,7 +30,8 @@
         android:id="@+id/delete_ingredient_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onClickDelete"
-        android:text="Удалить"
+        style="@style/TextButton"
+        android:text="@string/delete_ingredient"
+        android:layout_marginStart="5dp"
         android:textSize="20sp" />
 </LinearLayout>

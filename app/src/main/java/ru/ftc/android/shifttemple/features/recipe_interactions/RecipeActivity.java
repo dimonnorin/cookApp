@@ -8,25 +8,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ru.ftc.android.shifttemple.App;
 import ru.ftc.android.shifttemple.R;
 import ru.ftc.android.shifttemple.features.login.domain.model.User;
-import ru.ftc.android.shifttemple.features.recipes.data.RecipesApi;
-import ru.ftc.android.shifttemple.features.recipes.data.RecipesDataSource;
-import ru.ftc.android.shifttemple.features.recipes.data.RecipesDataSourceImpl;
-import ru.ftc.android.shifttemple.features.recipes.data.RecipesRepository;
-import ru.ftc.android.shifttemple.features.recipes.data.RecipesRepositoryImpl;
-import ru.ftc.android.shifttemple.features.recipes.domain.RecipesInteractor;
-import ru.ftc.android.shifttemple.features.recipes.domain.RecipesInteractorImpl;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Ingredient;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
-import ru.ftc.android.shifttemple.network.Carry;
 
 public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
@@ -44,7 +35,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
     private MemberAdapter memberAdapter;
 
-    private Button joinButton;
+    private ProgressBar progressBar;
 
     private TextView name;
 
@@ -64,18 +55,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
     private void initView() {
         presenter = PresenterFactory.createPresenter(this);
 
-        //TODO решить что делать(убрать/оставить)
-        joinButton = findViewById(R.id.join_btn);
-        joinButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onMemberJoin();
-            }
-        });
 
 
         name = findViewById(R.id.recipe_name);
         description = findViewById(R.id.recipe_description);
+        progressBar = findViewById(R.id.progress_bar);
 
         RecyclerView ingredients = findViewById(R.id.ingredients_view);
         ingredientAdapter = new IngredientAdapter(this, new IngredientAdapter.IngredientListener() {
@@ -84,7 +68,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
                 Log.println(Log.DEBUG, "Test", "add" + count);
 
                 if(checkForIngredients(ingredient, count)){
-                    int inStock = ingredient.getInStock();
+                    int inStock = ingredient.getCollected();
                     int c = ingredient.getCount();
                     int add = 0;
                     if((c - count - inStock) < 0) {
@@ -92,7 +76,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
                     }else{
                         add = inStock + count;
                     }
-                    ingredient.setInStock(add);
+                    ingredient.setCollected(add);
                     //TODO attention! sorry for this code
                     //we do not have any session id
                     String id = "0";
@@ -175,9 +159,19 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         onLoadRecipe(recipe);
     }
 
+    @Override
+    public void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
 
     @Override
     public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
     }
 }

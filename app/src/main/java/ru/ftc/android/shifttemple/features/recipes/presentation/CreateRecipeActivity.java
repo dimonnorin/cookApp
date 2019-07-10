@@ -19,8 +19,6 @@ import com.example.recipe.model.Recipe;*/
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,7 +43,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
     private List<Ingredient> ingredients;
     private Recipe recipe;
     private RecipesInteractor interactor;
-    private Set<Integer> addedIngredientNums;
+    private Set<String> addedIngredients;
 
 
 
@@ -60,7 +58,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_recipe);
         recipe = new Recipe();
         ingredients = new ArrayList<>();
-        addedIngredientNums = new HashSet<>();
+        addedIngredients = new HashSet<>();
         initView();
     }
 
@@ -108,12 +106,16 @@ public class CreateRecipeActivity extends AppCompatActivity {
         interactor.createRecipe(recipe, new Carry<Recipe>(){
             @Override
             public void onSuccess(Recipe result) {
-
+                Log.println(Log.INFO, "RUN", "create recipe success.");
+                Intent intent = new Intent();
+                intent.putExtra(RESOURCE_NAME,gson.toJson((recipe)));
+                setResult(RESULT_OK, intent);
+                finish();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                Toast.makeText(CreateRecipeActivity.this, "Check", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,7 +129,14 @@ public class CreateRecipeActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        adapter = new IngredientAdapter(this);
+        adapter = new IngredientAdapter(this, new IngredientAdapter.IngredientListener() {
+            @Override
+            public void onDeleteIngredient(Ingredient ingredient) {
+                ingredients.remove(ingredient);
+                addedIngredients.remove(ingredient.getName());
+                adapter.removeItem(ingredient);
+            }
+        });
         recyclerView = findViewById(R.id.ingredients);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -188,9 +197,9 @@ public class CreateRecipeActivity extends AppCompatActivity {
                                                         int id) {
                                         ingredients.clear();
                                         for (int i = 0; i < checkProductsName.length; i++){
-                                            if (mCheckedItems[i] && !addedIngredientNums.contains(i)){
+                                            if (mCheckedItems[i] && !addedIngredients.contains(checkProductsName[i])){
                                                 Log.println(Log.DEBUG,"Test","!contains");
-                                                addedIngredientNums.add(i);
+                                                addedIngredients.add(checkProductsName[i]);
                                                 ingredients.add(new Ingredient(checkProductsName[i]));
                                             }
                                         }
@@ -209,8 +218,5 @@ public class CreateRecipeActivity extends AppCompatActivity {
     public void onAddIngredient(View view){
         Dialog dialog = onCreateDialog(ID_CHECK_PRODUCTS);
         dialog.show();
-    }
-    public void onClickDelete(View view){
-        adapter.clearItems();
     }
 }

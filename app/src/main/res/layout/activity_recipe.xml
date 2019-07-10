@@ -18,29 +18,34 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Recipe name:"
+            android:text="@string/recipe_name"
+            style="@style/Description"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_name"
+            style="@style/Data"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Recipe description:"
+            android:text="@string/recipe_description"
+            style="@style/Description"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/recipe_description"
+            style="@style/Data"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingredients:"
+            android:text="@string/ingredients"
+            style="@style/Description"
             />
 
         <android.support.v7.widget.RecyclerView
@@ -55,25 +60,31 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Creator:"
+            android:text="@string/creator"
+            style="@style/Description"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/creator_info"
+            style="@style/Data"
             />
 
-        <Button
-            android:layout_width="match_parent"
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/join_btn"
-            android:text="Join"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/progress_bar"
             />
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Members:"
+            android:text="@string/members"
+            style="@style/Description"
             />
 
         <android.support.v7.widget.RecyclerView

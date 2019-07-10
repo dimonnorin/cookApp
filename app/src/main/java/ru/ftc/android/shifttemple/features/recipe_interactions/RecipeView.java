@@ -13,8 +13,12 @@ public interface RecipeView extends MvpView {
 
     void updateRecipe(Recipe recipe);
 
+    void showError(String message);
+
     void onLoadMembers(List<User> members);
 
     void showProgress();
+
+    void hideProgress();
 
 }

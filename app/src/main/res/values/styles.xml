@@ -9,4 +9,28 @@
     </style>
 
 
+    <style name="Title" parent="Theme.AppCompat">
+       <item name="android:textSize">@dimen/title_text</item>
+    </style>
+
+
+    <style name="EditText" parent="Theme.AppCompat">
+        <item name="android:textSize">@dimen/edit_text</item>
+    </style>
+
+    <style name="Description" parent="Theme.AppCompat">
+        <item name="android:textSize">@dimen/description_text</item>
+    </style>
+
+    <style name="Data" parent="Theme.AppCompat">
+        <item name="android:textSize">@dimen/data_text</item>
+    </style>
+
+    <style name="TextButton" parent="Theme.AppCompat">
+        <item name="android:textSize">@dimen/button_text</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:textColor">#F1EAEA</item>
+    </style>
+
+
 </resources>

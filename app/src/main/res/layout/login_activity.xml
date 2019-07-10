@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:text="@string/next_button"
         android:gravity="center"
+        style="@style/TextButton"
+        android:layout_margin="20dp"
         android:layout_gravity="bottom" />
 
 </FrameLayout>

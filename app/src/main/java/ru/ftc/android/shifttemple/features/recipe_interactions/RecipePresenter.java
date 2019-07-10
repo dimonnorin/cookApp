@@ -35,7 +35,7 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
 
 
     void loadRecipe(String id){
-
+        view.showProgress();
 
         //DEB
         Log.println(Log.DEBUG, "Test", "loadRecipe");
@@ -43,17 +43,17 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
         List<User> users = new ArrayList<>();
         users.add(new User("1", "Bob"));
         r.setMembers(users);
-        r.setCreator("Cat");
+        r.setCreator(new User("id", "Bob"));
         r.setId(id);
         r.setTitle("Cookie");
-        r.setCreator("Norman");
+        r.setCreator(new User("id", "Norman"));
         List<Ingredient> ingredients = new ArrayList<>();
         Ingredient d = new Ingredient("dough");
         d.setCount(2);
-        d.setInStock(1);
+        d.setCollected(1);
         ingredients.add(d);
         Ingredient s = new Ingredient("chocolate");
-        s.setInStock(2);
+        s.setCollected(2);
         s.setCount(3);
         ingredients.add(s);
         r.setIngredients(ingredients);
@@ -66,11 +66,12 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
             @Override
             public void onSuccess(Recipe result) {
                 view.onLoadRecipe(result);
+                view.hideProgress();
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                view.showError("Check.");
             }
         });
     }
@@ -84,13 +85,12 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
         interactor.createRecipe(recipe, new Carry<Recipe>() {
             @Override
             public void onSuccess(Recipe result) {
-
                 view.updateRecipe(result);
             }
 
             @Override
             public void onFailure(Throwable throwable) {
-
+                view.showError("Check.");
             }
         });
     }

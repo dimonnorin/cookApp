@@ -25,6 +25,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     private final RecipesInteractor interactor;
 
     //for test without network
+    //DEB
     private List<ShortRecipe> recipesData = new ArrayList<>();
 
     RecipesListPresenter(RecipesInteractor interactor) {
@@ -33,6 +34,8 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
     @Override
     protected void onViewReady() {
+
+
         //TODO Статически заданные начальные поля продуктов, вызывается при переходе на активити
         //Log.println(Log.DEBUG, "Test", "onViewReady");
         recipesData.add(new ShortRecipe("Pancakes"));
@@ -44,7 +47,6 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     //TODO реакция на взаимодействие с продуктом
     void onRecipeDelete(ShortRecipe shortRecipe) {
         Log.println(Log.DEBUG, "Test", "onRecipeDelete");
-
         interactor.deleteRecipe(shortRecipe.getId(), new Carry<Success>(){
 
             @Override
@@ -57,10 +59,9 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
             }
         });
-
     }
 
-    void loadRecipeData(ShortRecipe shortRecipe){
+    /*void loadRecipeData(ShortRecipe shortRecipe){
         Log.println(Log.DEBUG, "Test", "loadRecipeData");
         interactor.loadRecipe(shortRecipe.getId(),new Carry<Recipe>(){
             @Override
@@ -73,47 +74,38 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
             }
         });
-    }
+    }*/
 
     //DEB
-    void onRecipeCreate(ShortRecipe shortRecipe) {
-        recipesData.add(shortRecipe);
+    void onRecipeCreate(Recipe recipe) {
+        //DEB
+        recipesData.add(recipe);
         Log.println(Log.DEBUG, "Test", "loadRecipeData");
         loadRecipes();
-
-        //createRecipe будет использоваться в другой Activity это просто тест
-        /*interactor.createRecipe(shortRecipe, new Carry<ShortRecipe>(){
-            @Override
-            public void onSuccess(ShortRecipe result) {
-
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-
-            }
-        });*/
     }
 
 
 
     void loadRecipes() {
         Log.println(Log.DEBUG, "Test", "loadRecipes");
+        view.showProgress();
+
+
         //DEB
         view.showRecipesList(recipesData);
-
+        //view.hideProgress();
 
         interactor.loadRecipes(new Carry<List<ShortRecipe>>(){
-
             @Override
             public void onSuccess(List<ShortRecipe> result) {
-
+                Log.println(Log.DEBUG, "Test", "load recipes success.");
+                view.hideProgress();
                 view.showRecipesList(result);
             }
-
             @Override
             public void onFailure(Throwable throwable) {
-
+                Log.println(Log.DEBUG, "Test", "load recipes faild.");
+                view.showError("Check your internet connection.");
             }
         });
     }

@@ -2,15 +2,12 @@ package ru.ftc.android.shifttemple.features.recipe_interactions;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -83,7 +80,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
         void bind (final Ingredient ingredient) {
             ingredientName.setText(ingredient.getName());
             addCount.setText("1");
-            String relation = ingredient.getInStock() + "/" + ingredient.getCount();
+            String relation = ingredient.getCollected() + "/" + ingredient.getCount();
             ingredientRelation.setText(relation);
 
             buttonAdd.setOnClickListener(new View.OnClickListener() {

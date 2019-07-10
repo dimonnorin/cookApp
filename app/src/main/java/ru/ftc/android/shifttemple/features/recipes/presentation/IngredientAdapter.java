@@ -21,10 +21,13 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
 {
     private final List<Ingredient> ingredients = new ArrayList<>();
     private final LayoutInflater inflater;
+    private final IngredientListener ingredientListener;
 
-    IngredientAdapter(Context context) {
+    IngredientAdapter(Context context, IngredientListener ingredientListener) {
         inflater = LayoutInflater.from(context);
+        this.ingredientListener = ingredientListener;
     }
+
     @Override
     public IngredientHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater
@@ -47,6 +50,11 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
         notifyDataSetChanged();
     }
 
+    public void removeItem(Ingredient ingredient){
+        ingredients.remove(ingredient);
+        notifyDataSetChanged();
+    }
+
     public void clearItems() {
         ingredients.clear();
         notifyDataSetChanged();
@@ -60,19 +68,30 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
     class IngredientHolder extends RecyclerView.ViewHolder {
         private final EditText ingredientNameView;
         private final EditText ingredientCountView;
-        //private final Button button;
+        private final Button deleteButton;
 
 
         IngredientHolder(View view) {
             super(view);
             ingredientNameView = view.findViewById(R.id.ingredient_name);
             ingredientCountView = view.findViewById(R.id.ingredient_count);
-            //button = view.findViewById(R.id.delete_ingredient_button);
+            deleteButton = view.findViewById(R.id.delete_ingredient_button);
         }
         void bind (final Ingredient ingredient) {
             ingredientNameView.setText(ingredient.getName());
             ingredientCountView.setText("1");
-        }
 
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ingredientListener.onDeleteIngredient(ingredient);
+                }
+            });
+        }
+    }
+
+
+    interface IngredientListener{
+        void onDeleteIngredient(Ingredient ingredient);
     }
 }
