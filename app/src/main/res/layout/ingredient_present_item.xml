@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
     >
 
 
@@ -10,32 +11,85 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ingredient_name"
+        android:layout_alignParentStart="true"
+        style="@style/Description"
+        android:layout_centerVertical="true"
         android:text="Name:"
-        android:minEms="10"
+        android:maxLength="7"
+        android:ellipsize="end"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/count_relation"
+        style="@style/Data"
         android:minEms="3"
+        android:gravity="right"
+        android:layout_toStartOf="@id/added_ingredients"
+        android:layout_toEndOf="@id/ingredient_name"
+        android:layout_marginEnd="10dp"
+        android:layout_centerVertical="true"
         />
 
-    <EditText
+
+    <TextView
+        android:id="@+id/added_ingredients"
+        style="@style/Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/add_count"
-        android:inputType="numberDecimal"
-        android:textSize="20sp"
-        android:minEms="5"
-        android:maxEms="5"
-        />
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/added_text"
+        android:layout_centerVertical="true"
+        android:text="+3"
+        android:textColor="@color/colorGreen"
+        android:textSize="25sp" />
+
+
+    <!--TODO изменить размер кнопок добавления-->
+
+
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/added_text"
+        android:layout_toStartOf="@id/add_ingredient_button"
+        android:layout_centerVertical="true"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:visibility="invisible" />
+        <EditText
+            android:id="@+id/add_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:maxLength="3"
+            android:maxLines="1"
+            android:minEms="2"
+            android:text="sdf"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_ingredient_button"
-        android:background="@null"
-        android:src="@drawable/ic_create_recipe_button"
+        android:textSize="20sp"
+        style="@style/TextButton"
+        android:src="@mipmap/ic_create_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
         />
 
-</LinearLayout>
+
+
+
+    <!--android:text="@string/add_ingredient_button"-->
+
+</RelativeLayout>

@@ -53,7 +53,7 @@ public final class LoginPresenterTest {
         reset(userInteractor, view);
         final String sessionId = "sessionId";
         final User selectedUser = mock(User.class);
-        when(selectedUser.getSessionId()).thenReturn(sessionId);
+        when(selectedUser.getUserId()).thenReturn(sessionId);
 
         presenter.onNavigateNextClick(selectedUser);
 

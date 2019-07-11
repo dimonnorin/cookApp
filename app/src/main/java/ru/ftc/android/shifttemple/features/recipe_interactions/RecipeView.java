@@ -4,6 +4,7 @@ import java.util.List;
 
 import ru.ftc.android.shifttemple.features.MvpView;
 import ru.ftc.android.shifttemple.features.login.domain.model.User;
+import ru.ftc.android.shifttemple.features.recipe_interactions.model.MemberIngredients;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
 
 public interface RecipeView extends MvpView {
@@ -15,7 +16,7 @@ public interface RecipeView extends MvpView {
 
     void showError(String message);
 
-    void onLoadMembers(List<User> members);
+    void onLoadMembersIngredients(List<MemberIngredients> membersIngredients);
 
     void showProgress();
 

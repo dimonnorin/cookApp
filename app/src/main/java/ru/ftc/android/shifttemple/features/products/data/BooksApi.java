@@ -31,6 +31,8 @@ public interface BooksApi {
     @POST("books")//Body использует объект product в качестве тела запроса,отправляем его
     Call<Product> createBook(@Body Product product);
 
+
+
     @DELETE("books/{id}")
     Call<Success> deleteBook(@Path("id") String id);
 

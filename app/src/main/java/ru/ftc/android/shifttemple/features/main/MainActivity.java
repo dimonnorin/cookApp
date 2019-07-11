@@ -100,7 +100,7 @@ public final class MainActivity extends BaseActivity implements MainView {
         }
 
         @Override
-        public int getCount() {
+        public int getCountNeed() {
             return fragments.size();
         }
 

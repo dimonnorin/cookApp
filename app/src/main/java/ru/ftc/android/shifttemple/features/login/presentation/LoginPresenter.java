@@ -27,7 +27,7 @@ public final class LoginPresenter extends MvpPresenter<LoginView> {
         if (selectedUser == null) {
             view.showNotSelectedUserError();
         } else {
-            sessionInteractor.setSessionId(selectedUser.getSessionId());
+            sessionInteractor.setSessionId(selectedUser.getUserId());
             view.openRecipesListScreen();
         }
     }

@@ -2,7 +2,9 @@ package ru.ftc.android.shifttemple.features.recipes.data;
 
 import java.util.List;
 
+import retrofit2.Call;
 import ru.ftc.android.shifttemple.features.products.domain.model.Success;
+import ru.ftc.android.shifttemple.features.recipe_interactions.model.MemberIngredients;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
 import ru.ftc.android.shifttemple.network.Carry;
@@ -39,7 +41,17 @@ public final class RecipesDataSourceImpl implements RecipesDataSource {
     }
 
     @Override
+    public void getSearchedRecipes(String search, Carry<List<ShortRecipe>> carry){
+        recipesApi.getSearchedRecipes(search).enqueue(new DefaultCallback(carry));
+    }
+
+    @Override
     public void deleteRecipe(String id, Carry<Success> carry) {
         recipesApi.deleteRecipe(id).enqueue(new DefaultCallback(carry));
+    }
+
+    @Override
+    public void updateRecipe(String id, MemberIngredients ingredients, Carry<List<MemberIngredients>> carry) {
+        recipesApi.updateRecipe(id, ingredients).enqueue(new DefaultCallback(carry));
     }
 }

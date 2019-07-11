@@ -12,10 +12,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.ftc.android.shifttemple.R;
 import ru.ftc.android.shifttemple.features.login.domain.model.User;
+import ru.ftc.android.shifttemple.features.recipe_interactions.model.AddedIngredient;
+import ru.ftc.android.shifttemple.features.recipe_interactions.model.MemberIngredients;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Ingredient;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
 
@@ -37,7 +40,14 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
     private ProgressBar progressBar;
 
-    private TextView name;
+    private TextView recipeName;
+
+    private TextView creatorName;
+
+    private Button updateButton;
+
+    private MemberIngredients addedIngredients;
+
 
     private TextView description;
 
@@ -47,6 +57,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         setContentView(R.layout.activity_recipe);
         Intent intent = getIntent();
         //check for null
+
+        //Прилетело от RecipeListActivity
         recipeId = intent.getStringExtra(RES_RECIPE_ID);
         initView();
     }
@@ -56,33 +68,76 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         presenter = PresenterFactory.createPresenter(this);
 
 
+        addedIngredients = new MemberIngredients();
+        addedIngredients.setIngredients(new ArrayList<AddedIngredient>());
 
-        name = findViewById(R.id.recipe_name);
+        //TODO static Pety
+        addedIngredients.setUser(new User("1", "Петя"));
+
+
+        recipeName = findViewById(R.id.recipe_name);
+        creatorName = findViewById(R.id.creator_info);
         description = findViewById(R.id.recipe_description);
         progressBar = findViewById(R.id.progress_bar);
+        updateButton = findViewById(R.id.update_recipe_btn);
+
+
+
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!addedIngredients.getIngredients().isEmpty())
+                    presenter.updateRecipe(addedIngredients, recipeId);
+            }
+        });
 
         RecyclerView ingredients = findViewById(R.id.ingredients_view);
         ingredientAdapter = new IngredientAdapter(this, new IngredientAdapter.IngredientListener() {
             @Override
-            public void onAddIngredient(Ingredient ingredient, int count) {
+            public String onAddIngredient(Ingredient ingredient, int count) {
                 Log.println(Log.DEBUG, "Test", "add" + count);
+                if(ingredient.getCountHave().equals(ingredient.getCountNeed())){
+                    return "0";
+                }
+                Log.println(Log.DEBUG, "Test", "Fly count " + count);
 
                 if(checkForIngredients(ingredient, count)){
-                    int inStock = ingredient.getCollected();
-                    int c = ingredient.getCount();
-                    int add = 0;
+                    int inStock = Integer.valueOf(ingredient.getCountHave());
+                    int c = Integer.valueOf(ingredient.getCountNeed());
+                    Log.println(Log.DEBUG, "Test", "Need: " + c + " Have: " + inStock);
+
+                    int total = 0, added = 0;
                     if((c - count - inStock) < 0) {
-                        add = c;
+                        total = c;
+                        added = c - inStock;
                     }else{
-                        add = inStock + count;
+                        total = inStock + count;
+                        added = count;
                     }
-                    ingredient.setCollected(add);
-                    //TODO attention! sorry for this code
+                    //ingredient.setCountHave(String.valueOf(added));
+
+
+                    addedIngredients.getIngredients().add(new AddedIngredient(String.valueOf(added), ingredient.getName()));
+
+                    removeIngredientFromStock(ingredient, added);
+
+                    return String.valueOf(added);
+
+
+
+
+
+
+                    //updateRecipe(recipe);
+
+
+
+                    //DEB
                     //we do not have any session id
-                    String id = "0";
+                    /*String id = "0";
                     boolean has = false;
                     for (User user: recipe.getMembers()){
-                        if(user.getSessionId().equals(id)){
+                        if(user.getUserId().equals(id)){
                             has = true;
                             break;
                         }
@@ -90,18 +145,16 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
                     if(!has){
                         //again, we do not have session id yet
-                        recipe.getMembers().add(new User("0", "Name"));
-                    }
+                        recipe.getMembers().total(new User("0", "Name"));
+                    }*/
 
+                    //presenter.updateRecipe(recipe);
+                    //presenter.loadMembersList();
 
-
-                    presenter.updateRecipe(recipe);
-                    presenter.loadMembersList();
-
-                    removeIngredientFromStock(ingredient, add);
                 }
                 //TODO Сюда прилетает число ингридиентов которое ты хочешь добавить
                 //в рецепт,
+                return "0";
             }
 
             @Override
@@ -141,17 +194,39 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
     }
 
     @Override
-    public void onLoadMembers(List<User> members) {
+    public void onLoadMembersIngredients(List<MemberIngredients> membersIngredients) {
+        //TODO добавить в member item информацию о добавленных ингредиентах
+        List<User> members = new ArrayList<>();
 
+        for(MemberIngredients memberIngredients : membersIngredients){
+            members.add(memberIngredients.getUser());
+            Log.println(Log.DEBUG, "Test", "Member found:" + memberIngredients.getUser().getName());
+
+            for(AddedIngredient added : memberIngredients.getIngredients()){
+                for (Ingredient ingredient : recipe.getIngredients()){
+                    if(added.getName().equals(ingredient.getName())){
+                        //???????????????? crazy
+                         int value = Integer.valueOf(ingredient.getCountNeed())   +    Integer.valueOf(added.getCount());
+                         ingredient.setCountNeed(String.valueOf(value));
+                    }
+                }
+            }
+        }
+        memberAdapter.setItems(members);
+        onLoadRecipe(recipe);
+
+
+        //ingredientAdapter.setItems(recipe.getIngredients());
+        //memberAdapter.setItems(recipe.getMembers());
     }
 
     @Override
     public void onLoadRecipe(Recipe recipe) {
         this.recipe = recipe;
-        name.setText(recipe.getTitle());
+        creatorName.setText(recipe.getCreator().getName());
+        recipeName.setText(recipe.getTitle());
         description.setText(recipe.getDescription());
         ingredientAdapter.setItems(recipe.getIngredients());
-        memberAdapter.setItems(recipe.getMembers());
     }
 
     @Override

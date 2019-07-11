@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="offset_16">16dp</dimen>
-    <dimen name="title_text">15sp</dimen>
-    <dimen name="data_text">11sp</dimen>
-    <dimen name="description_text">12sp</dimen>
-    <dimen name="button_text">12sp</dimen>
-    <dimen name="edit_text">11sp</dimen>
-</resources>

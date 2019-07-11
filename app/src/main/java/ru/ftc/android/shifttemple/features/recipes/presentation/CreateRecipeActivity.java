@@ -90,7 +90,8 @@ public class CreateRecipeActivity extends AppCompatActivity {
 
             ingredients.get(i).setName(editIngredientsName.getText().toString());
             try {
-                ingredients.get(i).setCount(Integer.parseInt(editIngredientsCount.getText().toString()));
+                Integer.parseInt(editIngredientsCount.getText().toString());
+                ingredients.get(i).setCountNeed(editIngredientsCount.getText().toString());
             }catch (NumberFormatException exc){
                 Toast.makeText(this, "Wrong count number in " + ingredients.get(i).getName(), Toast.LENGTH_SHORT).show();
                 return;

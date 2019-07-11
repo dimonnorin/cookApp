@@ -37,10 +37,29 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
 
         //TODO Статически заданные начальные поля продуктов, вызывается при переходе на активити
+
+        //DEB
         //Log.println(Log.DEBUG, "Test", "onViewReady");
-        recipesData.add(new ShortRecipe("Pancakes"));
-        recipesData.add(new ShortRecipe("Chocolate"));
+        /*recipesData.add(new ShortRecipe("Блины"));
+        recipesData.add(new ShortRecipe("Шоколад"));*/
         loadRecipes();
+    }
+
+
+    void onSearchRecipes(String search){
+        Log.println(Log.DEBUG, "Test", "search");
+        view.showProgress();
+        interactor.getSearchedRecipes(search, new Carry<List<ShortRecipe>>() {
+            @Override
+            public void onSuccess(List<ShortRecipe> result) {
+                view.showRecipesList(result);
+                view.hideProgress();
+            }
+            @Override
+            public void onFailure(Throwable throwable) {
+
+            }
+        });
     }
 
 
@@ -48,10 +67,9 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     void onRecipeDelete(ShortRecipe shortRecipe) {
         Log.println(Log.DEBUG, "Test", "onRecipeDelete");
         interactor.deleteRecipe(shortRecipe.getId(), new Carry<Success>(){
-
             @Override
             public void onSuccess(Success result) {
-
+                view.hideProgress();
             }
 
             @Override
@@ -89,8 +107,6 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
     void loadRecipes() {
         Log.println(Log.DEBUG, "Test", "loadRecipes");
         view.showProgress();
-
-
         //DEB
         view.showRecipesList(recipesData);
         //view.hideProgress();
@@ -104,7 +120,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
             }
             @Override
             public void onFailure(Throwable throwable) {
-                Log.println(Log.DEBUG, "Test", "load recipes faild.");
+                Log.println(Log.DEBUG, "Test", "load recipes failed.");
                 view.showError("Check your internet connection.");
             }
         });

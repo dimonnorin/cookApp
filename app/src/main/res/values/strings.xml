@@ -1,20 +1,29 @@
 <resources>
-    <string name="app_name">ShiftTemple</string>
+    <string name="app_name">Cooker</string>
     <string name="create_button">+</string>
     <string name="next_button">Далее</string>
     <string name="not_selected_user_error">Выберите пользователя</string>
-    <string name="recipes_title">Recipes</string>
+    <string name="recipes_title">Рецепты</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title">Title</string>
-    <string name="description">Description:</string>
-    <string name="ingredients">Ingredients:</string>
+    <string name="title">Заголовок</string>
+    <string name="description">Описание:</string>
+    <string name="ingredients">Ингредиенты</string>
     <string name="create_recipe_text">СОЗДАТЬ</string>
     <string name="add_ingredient_text">Добавить ингредиент</string>
     <string name="delete_ingredient">Удалить</string>
-    <string name="recipe_name">Recipe name:</string>
-    <string name="recipe_description">Recipe description:</string>
-    <string name="creator">Creator:</string>
-    <string name="members">Members:</string>
+    <string name="recipe_name">Название рецепта:</string>
+    <string name="recipe_description">Описание рецепта:</string>
+    <string name="creator">Создатель:</string>
+    <string name="members">Участники</string>
     <string name="find_button">Найти</string>
+    <string name="update">Обновить</string>
+    <string name="add_ingredient_button">Добавить</string>
+    <string name="create_activity_toolbar">Создание</string>
+    <string name="recipes_list_toolbar">Рецепты</string>
+    <string name="recipe_activity_toolbar">Изменить</string>
+    <string name="update_recipes_list">Обновить</string>
+    <string name="create_recipe_btn">Создать рецепт</string>
+    <string name="refrigerator">Холодильник</string>
+    <string name="search_hint">Введите ингредиент или название</string>
 </resources>

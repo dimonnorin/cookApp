@@ -3,6 +3,7 @@ package ru.ftc.android.shifttemple.features.recipes.domain;
 import java.util.List;
 
 import ru.ftc.android.shifttemple.features.products.domain.model.Success;
+import ru.ftc.android.shifttemple.features.recipe_interactions.model.MemberIngredients;
 import ru.ftc.android.shifttemple.features.recipes.data.RecipesRepository;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
@@ -41,4 +42,16 @@ public final class RecipesInteractorImpl implements RecipesInteractor {
     public void deleteRecipe(String id, Carry<Success> carry) {
         repository.deleteRecipe(id, carry);
     }
+
+    @Override
+    public void updateRecipe(String id, MemberIngredients ingredients, Carry<List<MemberIngredients>> carry) {
+        repository.updateRecipe(id, ingredients, carry);
+    }
+
+    @Override
+    public void getSearchedRecipes(String search, Carry<List<ShortRecipe>> carry) {
+        repository.getSearchedRecipes(search, carry);
+    }
+
+
 }

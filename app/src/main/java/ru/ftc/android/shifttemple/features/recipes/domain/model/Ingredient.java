@@ -2,30 +2,35 @@ package ru.ftc.android.shifttemple.features.recipes.domain.model;
 
 public class Ingredient {
     private String name;
-    private int required;
-    private int collected;
+    private String countNeed;
+    private String countHave;
     public Ingredient(String name){
         this.name = name;
     }
 
-    public int getCollected() {
-        return collected;
+    public String getCountHave() {
+        return countHave;
     }
 
-    public void setCollected(int collected) {
-        this.collected = collected;
+    public void setCountHave(String countHave) {
+        this.countHave = countHave;
     }
 
     public String getName(){
         return name;
     }
-    public int getCount(){
-        return required;
+    public String getCountNeed(){
+        return countNeed;
     }
 
 
 
-    public void setName(String name){this.name = name;}
-    public void setCount(int count){
-        required = count;}
+    public void setName(String name){
+        this.name = name;
+
+    }
+    public void setCountNeed(String count)
+
+    {
+        countNeed = count;}
 }

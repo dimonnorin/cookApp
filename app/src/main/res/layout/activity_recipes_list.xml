@@ -7,32 +7,79 @@
     android:orientation="vertical"
     tools:context=".features.recipes.presentation.RecipesListActivity">
 
-
-        <TextView
-            android:layout_width="match_parent"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:title="@string/recipes_list_toolbar"
+            style="@style/toolBar"
             android:layout_height="wrap_content"
-            android:id="@+id/recipe_title"
-            android:text="@string/recipes_title"
-            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
             />
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:id="@+id/search_users"
             android:shadowColor="@color/colorPrimary"
+            android:textColorLink="@color/colorPrimary"
+            android:textColorHighlight="@color/colorPrimary"
             style="@style/EditText"
             android:maxLines="1"
             android:layout_margin="5dp"
+            android:ellipsize="end"
+            android:hint="@string/search_hint"
             />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:id="@+id/search_button"
+            android:layout_gravity="end"
             android:text="@string/find_button"
             style="@style/TextButton"
+            android:layout_marginEnd="10dp"
             />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        >
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_update_circle"
+            android:layout_gravity="center"
+            android:background="@null"
+            />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update_recipes_list"
+            android:layout_gravity="center"
+            android:id="@+id/update_button"
+            />
+    </LinearLayout>
+
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recipes_recycle_view"
@@ -51,22 +98,48 @@
             />
 
 
-        <ImageButton
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        >
+
+        <!--<ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/update_button"
             android:src="@mipmap/ic_update_button"
             android:background="@null"
-            android:layout_gravity="end"
+            android:layout_gravity="center"
+            />-->
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_create_button"
+            android:text="@string/refrigerator"
+            style="@style/TextButton"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
             />
 
-        <ImageButton
+
+
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/create_product_button"
-            android:src="@mipmap/ic_create_button"
-            android:layout_gravity="end"
-            android:background="@null"
+            android:text="@string/create_recipe_btn"
+            style="@style/TextButton"
+            android:layout_weight="1"
+
             />
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
         private final TextView ingredientRelation;
         private final ImageButton buttonAdd;
         private final EditText addCount;
+        private TextView addedIngredients;
 
 
         IngredientHolder(View view) {
@@ -74,13 +76,15 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
             ingredientRelation = view.findViewById(R.id.count_relation);
             buttonAdd = view.findViewById(R.id.add_ingredient_button);
             addCount = view.findViewById(R.id.add_count);
+            addedIngredients = view.findViewById(R.id.added_ingredients);
 
             //button = view.findViewById(R.id.delete_ingredient_button);
         }
         void bind (final Ingredient ingredient) {
             ingredientName.setText(ingredient.getName());
             addCount.setText("1");
-            String relation = ingredient.getCollected() + "/" + ingredient.getCount();
+            addedIngredients.setText("+0");
+            String relation = ingredient.getCountHave() + "/" + ingredient.getCountNeed();
             ingredientRelation.setText(relation);
 
             buttonAdd.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +98,15 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
                     String value = addCount.getText().toString();
 
                     try {
-                        ingredientListener.onAddIngredient(ingredient, Integer.parseInt(value));
+                        String added = ingredientListener.
+                                onAddIngredient(ingredient, Integer.parseInt(value));
+                        if(added.equals("0")) return;
+
+                        String data = "+" + added;
+
+                        addedIngredients.setText(data);
+
+
                     }catch (NumberFormatException exc){
                         ingredientListener.onError("Incorrect count number.");
                         addCount.setText("1");
@@ -110,7 +122,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
     interface IngredientListener{
 
 
-        void onAddIngredient(Ingredient ingredient, int count);
+        String onAddIngredient(Ingredient ingredient, int count);
 
         void onError(String message);
 

@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,11 +35,15 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
     private RecipesListPresenter presenter;
 
-    private ImageButton createButton;
+    private Button createButton;
 
-    private ImageButton updateButton;
+    private Button updateButton;
 
     private ProgressBar progressBar;
+
+    private EditText searchText;
+
+    private Button searchButton;
 
     private Gson gson = new Gson();
 
@@ -103,6 +109,22 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
         updateButton  = findViewById(R.id.update_button);
 
         progressBar = findViewById(R.id.progress_bar);
+
+        searchButton = findViewById(R.id.search_button);
+
+        searchText = findViewById(R.id.search_users);
+
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String value =  searchText.getText().toString();
+                if(value.equals("")){
+                    Toast.makeText(RecipesListActivity.this, "empty", Toast.LENGTH_SHORT).show();
+                }
+                presenter.onSearchRecipes(value);
+            }
+        });
 
 
         createButton.setOnClickListener(new View.OnClickListener() {
