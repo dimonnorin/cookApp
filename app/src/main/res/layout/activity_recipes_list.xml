@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/swipe_container"
+    >
+
+
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".features.recipes.presentation.RecipesListActivity">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -14,7 +34,21 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="12dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_tool_logo"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
+
 
 
     <LinearLayout
@@ -22,7 +56,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-
 
         <EditText
             android:layout_width="0dp"
@@ -34,9 +67,10 @@
             android:textColorHighlight="@color/colorPrimary"
             style="@style/EditText"
             android:maxLines="1"
-            android:layout_margin="5dp"
+            android:layout_marginRight="5dp"
             android:ellipsize="end"
             android:hint="@string/search_hint"
+            android:textColorHint="@color/colorPrimary"
             />
 
         <Button
@@ -52,12 +86,23 @@
 
     </LinearLayout>
 
+    <!--android:src="@mipmap/ic_update_circle"-->
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_button"
+        android:src="@mipmap/ic_update_recipes"
+        android:background="@null"
+        android:layout_gravity="end"
+        />
 
-    <LinearLayout
+
+    <!--<LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/layout_update"
         >
 
         <ImageButton
@@ -69,14 +114,16 @@
             />
 
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/Description"
             android:text="@string/update_recipes_list"
+            android:background="@null"
             android:layout_gravity="center"
             android:id="@+id/update_button"
             />
-    </LinearLayout>
+    </LinearLayout>-->
 
 
 
@@ -123,6 +170,7 @@
             style="@style/TextButton"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
+            android:textColor="@color/colorRed"
             />
 
 
@@ -134,6 +182,7 @@
             android:text="@string/create_recipe_btn"
             style="@style/TextButton"
             android:layout_weight="1"
+            android:textColor="@color/colorDarkGreen"
 
             />
 
@@ -143,3 +192,5 @@
 
 
 </LinearLayout>
+
+</android.support.v4.widget.SwipeRefreshLayout>

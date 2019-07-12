@@ -33,19 +33,15 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
         view.showProgress();
 
         //DEB
-        Log.println(Log.DEBUG, "Test", "loadRecipe");
-        /*Recipe r = new Recipe();
+        /*Log.println(Log.DEBUG, "Test", "loadRecipe");
+        Recipe r = new Recipe();
         List<User> users = new ArrayList<>();
-        users.add(new User("1", "Bob"));
-        users.add(new User("1", "Cat"));
-        users.add(new User("1", "Bob"));
-        users.add(new User("1", "Cat"));
-        users.add(new User("1", "Bob"));
-        users.add(new User("1", "Cat"));
+        users.add(new User("+79833179376", "Bob"));
+
 
 
         r.setMembers(users);
-        r.setCreator(new User("id", "Петя"));
+        r.setCreator(new User("+79833179376", "Петя"));
         r.setId(id);
         r.setTitle("Блины");
         r.setDescription("" +
@@ -80,9 +76,9 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
 
 
         //DEB
-        view.hideProgress();
+        //view.hideProgress();
 
-
+        Log.println(Log.DEBUG, "Test", "onLoadRecipe: " + id);
 
         interactor.loadRecipe(id, new Carry<Recipe>(){
             @Override

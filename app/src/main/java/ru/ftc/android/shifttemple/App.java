@@ -12,6 +12,13 @@ import ru.ftc.android.shifttemple.network.RetrofitProvider;
  * Date: 01.07.18
  * Time: 22:48
  */
+
+
+//TODO переход на активность звонка
+//регистрация
+//изображения
+//app logo
+//при обновлении учитывать запрос в поиске?
 //MultiDExApplication
 public final class App extends Application {
 

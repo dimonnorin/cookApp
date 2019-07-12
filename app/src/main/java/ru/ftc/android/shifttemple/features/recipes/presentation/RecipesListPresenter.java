@@ -39,9 +39,13 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
         //TODO Статически заданные начальные поля продуктов, вызывается при переходе на активити
 
         //DEB
-        //Log.println(Log.DEBUG, "Test", "onViewReady");
-        /*recipesData.add(new ShortRecipe("Блины"));
-        recipesData.add(new ShortRecipe("Шоколад"));*/
+        //Log.println(Log.DEBUG, "Test", "onViewReady")
+        // ;
+        /*ShortRecipe r = new ShortRecipe("Блины");
+        r.setDescription("1. Налить в подходящую емкость молоко комнатной температуры, вбить туда яйца, добавить соль и сахар.\n");
+        r.setStatus("ожидание");
+        recipesData.add(r);*/
+
         loadRecipes();
     }
 
@@ -117,11 +121,14 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
                 Log.println(Log.DEBUG, "Test", "load recipes success.");
                 view.hideProgress();
                 view.showRecipesList(result);
+                view.hideSwipeProgress();
             }
             @Override
             public void onFailure(Throwable throwable) {
                 Log.println(Log.DEBUG, "Test", "load recipes failed.");
+                view.hideProgress();
                 view.showError("Check your internet connection.");
+                view.hideSwipeProgress();
             }
         });
     }

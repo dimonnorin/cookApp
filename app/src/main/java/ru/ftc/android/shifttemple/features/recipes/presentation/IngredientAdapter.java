@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -68,7 +69,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
     class IngredientHolder extends RecyclerView.ViewHolder {
         private final EditText ingredientNameView;
         private final EditText ingredientCountView;
-        private final Button deleteButton;
+        private final ImageButton deleteButton;
 
 
         IngredientHolder(View view) {

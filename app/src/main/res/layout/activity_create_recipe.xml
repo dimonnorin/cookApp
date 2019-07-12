@@ -6,14 +6,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".features.recipes.presentation.CreateRecipeActivity"
-
     >
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        app:title="@string/create_activity_toolbar"
-        style="@style/toolBar"
+
+
+    <!--<include
+        android:id = "@+id/toolbar"
+        layout="@layout/bar_layout"
+        />-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:title="@string/recipes_list_toolbar"
+            style="@style/toolBar"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            app:navigationIcon="@drawable/icon_back_arrow_small"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_tool_logo"
+            android:layout_alignParentEnd="true"
+            />
+
+    </RelativeLayout>
 
 
     <ScrollView
@@ -21,7 +48,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:layout_marginStart="5dp"
+        >
 
 
 
@@ -36,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/title"
-                style="@style/Title"
+                style="@style/Description"
                 />
             <EditText
                 android:id="@+id/name"
@@ -56,6 +85,7 @@
                 android:text="@string/description"
                 android:maxLines="7"
                 style="@style/Description"
+                android:layout_marginTop="10dp"
                 />
 
 
@@ -75,6 +105,8 @@
                 android:layout_height="wrap_content"
                 style="@style/Description"
                 android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/ingredients" />
 
 
@@ -102,7 +134,6 @@
         android:layout_height="wrap_content"
         android:onClick="onAddIngredient"
         android:padding="8dp"
-        android:layout_margin="20dp"
         android:text="@string/add_ingredient_text"
         android:layout_gravity="end"
         style="@style/TextButton"
@@ -112,9 +143,6 @@
         android:layout_height="wrap_content"
         android:text="@string/create_recipe_text"
         android:onClick="onClick"
-        android:padding="8dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
         android:layout_marginBottom="20dp"
         style="@style/TextButton"
         />

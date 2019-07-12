@@ -1,18 +1,25 @@
 package ru.ftc.android.shifttemple.features.recipe_interactions;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ru.ftc.android.shifttemple.R;
@@ -21,9 +28,9 @@ import ru.ftc.android.shifttemple.features.recipe_interactions.model.AddedIngred
 import ru.ftc.android.shifttemple.features.recipe_interactions.model.MemberIngredients;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Ingredient;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
+import ru.ftc.android.shifttemple.features.recipes.presentation.RecipesListActivity;
 
 public class RecipeActivity extends AppCompatActivity implements RecipeView {
-
 
 
     public static final String RES_RECIPE_ID = "id";
@@ -48,8 +55,13 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
     private MemberIngredients addedIngredients;
 
+    private HashMap<String, AddedIngredient> ingredientsOnLoad;
+
 
     private TextView description;
+
+    private TextView creatorPhone;
+    private ImageButton callCreator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +69,21 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         setContentView(R.layout.activity_recipe);
         Intent intent = getIntent();
         //check for null
-
+        ingredientsOnLoad = new HashMap<>();
         //Прилетело от RecipeListActivity
         recipeId = intent.getStringExtra(RES_RECIPE_ID);
         initView();
     }
 
+
+
+
+    private void onCall(String number) {
+        Log.println(Log.DEBUG, "Test", "onCall");
+        String num = "tel:" + number.trim();
+        //Action call
+        startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(num)));
+    }
 
     private void initView() {
         presenter = PresenterFactory.createPresenter(this);
@@ -81,13 +102,37 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         progressBar = findViewById(R.id.progress_bar);
         updateButton = findViewById(R.id.update_recipe_btn);
 
+        creatorPhone = findViewById(R.id.creator_phone_text);
+        callCreator = findViewById(R.id.call_creator);
+
+        callCreator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCall(creatorPhone.getText().toString());
+            }
+        });
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RecipeActivity.this, RecipesListActivity.class));
+            }
+        });
 
 
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!addedIngredients.getIngredients().isEmpty())
+                if (!ingredientsOnLoad.isEmpty()){
+                    List<AddedIngredient> ing =
+                            new ArrayList<>(ingredientsOnLoad.values());
+                    addedIngredients.setIngredients(ing);
+
                     presenter.updateRecipe(addedIngredients, recipeId);
+                }
+                //addedIngredients.getIngredients()
             }
         });
 
@@ -96,28 +141,32 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
             @Override
             public String onAddIngredient(Ingredient ingredient, int count) {
                 Log.println(Log.DEBUG, "Test", "add" + count);
-                if(ingredient.getCountHave().equals(ingredient.getCountNeed())){
+                if (ingredient.getCountHave().equals(ingredient.getCountNeed())) {
                     return "0";
                 }
-                Log.println(Log.DEBUG, "Test", "Fly count " + count);
 
-                if(checkForIngredients(ingredient, count)){
+
+                if (checkForIngredients(ingredient, count)) {
                     int inStock = Integer.valueOf(ingredient.getCountHave());
-                    int c = Integer.valueOf(ingredient.getCountNeed());
-                    Log.println(Log.DEBUG, "Test", "Need: " + c + " Have: " + inStock);
+
+                    int need = Integer.valueOf(ingredient.getCountNeed());
+
+                    //Log.println(Log.DEBUG, "Test", "Need: " + need + " Have: " + inStock);
 
                     int total = 0, added = 0;
-                    if((c - count - inStock) < 0) {
-                        total = c;
-                        added = c - inStock;
-                    }else{
+                    if ((need - count - inStock) < 0) {
+                        total = need;
+                        added = need - inStock;
+                    } else {
                         total = inStock + count;
                         added = count;
                     }
                     //ingredient.setCountHave(String.valueOf(added));
+                    Log.println(Log.DEBUG, "Test", "Fly count " + added);
+                    AddedIngredient ing =  new AddedIngredient(String.valueOf(added), ingredient.getName());
+                    ingredientsOnLoad.put(ingredient.getName(), ing);
 
-
-                    addedIngredients.getIngredients().add(new AddedIngredient(String.valueOf(added), ingredient.getName()));
+                    //addedIngredients.getIngredients().add(new AddedIngredient(String.valueOf(added), ingredient.getName()));
 
                     removeIngredientFromStock(ingredient, added);
 
@@ -125,11 +174,11 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
 
 
-
+                   /*List<ExceptionLifeCycleDataBean> beans =
+                            new ArrayList<ExceptionLifeCycleDataBean>(transitionHash.values());*/
 
 
                     //updateRecipe(recipe);
-
 
 
                     //DEB
@@ -164,13 +213,19 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         });
 
 
-
         ingredients.setAdapter(ingredientAdapter);
         ingredients.setLayoutManager(new LinearLayoutManager(this));
 
 
         RecyclerView members = findViewById(R.id.members_view);
-        memberAdapter = new MemberAdapter(this);
+        memberAdapter = new MemberAdapter(this, new MemberAdapter.MemberListener() {
+            @Override
+            public void onCall(String number) {
+                RecipeActivity.this.onCall(number);
+            }
+        });
+
+
         members.setAdapter(memberAdapter);
         members.setLayoutManager(new LinearLayoutManager(this));
 
@@ -204,11 +259,12 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
             for(AddedIngredient added : memberIngredients.getIngredients()){
                 for (Ingredient ingredient : recipe.getIngredients()){
-                    if(added.getName().equals(ingredient.getName())){
+                    if(0 == added.getName().compareTo(ingredient.getName())){
                         //???????????????? crazy
-                         int value = Integer.valueOf(ingredient.getCountNeed())   +    Integer.valueOf(added.getCount());
-                         ingredient.setCountNeed(String.valueOf(value));
+                         //int value = Integer.valueOf(ingredient.getCountHave())   +   Integer.valueOf(added.getCount());
+                         ingredient.setCountHave(added.getCount());
                     }
+
                 }
             }
         }
@@ -227,6 +283,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         recipeName.setText(recipe.getTitle());
         description.setText(recipe.getDescription());
         ingredientAdapter.setItems(recipe.getIngredients());
+
+        //TODO dsfdsfdsfdsfds
+        //TODO выпилить при серваке
+        //memberAdapter.setItems(recipe.getMembers());
     }
 
     @Override
@@ -249,4 +309,5 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
     }
+
 }

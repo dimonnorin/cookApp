@@ -15,6 +15,7 @@
     <style name="toolBar">
         <item name="android:background">@color/colorPrimary</item>
         <item name="titleTextColor">#fff</item>
+        <item name="android:textSize">@dimen/title_text</item>
     </style>
 
 
@@ -60,22 +61,28 @@
 
 
 
-    <style name="TextButton" parent="Theme.AppCompat.Light.DarkActionBar">
-
+    <style name="TextButton1" parent="Widget.AppCompat.Button.Colored">
 
         <!--<item name="android:buttonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
         <item name="colorControlHighlight">#fff</item>
 
         <item name="colorButtonNormal">@color/colorPrimary</item>
-
+        <item name="android:background">@drawable/rounded_button</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>-->
-
         <item name="android:background">@drawable/rounded_button</item>
+        <item name="colorButtonNormal">#000</item>
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">@dimen/button_text</item>
 
 
+    </style>
+
+
+    <style name="TextButton">
+        <item name="android:textColor">#fff</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/rounded_button</item>
     </style>
 
 

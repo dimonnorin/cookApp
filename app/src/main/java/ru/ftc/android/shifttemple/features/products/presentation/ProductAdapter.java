@@ -33,7 +33,7 @@ final class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductHo
     ProductAdapter(Context context, ProductListener productListener) {
         inflater = LayoutInflater.from(context);
         this.productListener = productListener;
-        clickAnimation = AnimationUtils.loadAnimation(context,R.anim.click_anim);
+        clickAnimation = AnimationUtils.loadAnimation(context,R.anim.card_click_anim);
     }
 
     @NonNull

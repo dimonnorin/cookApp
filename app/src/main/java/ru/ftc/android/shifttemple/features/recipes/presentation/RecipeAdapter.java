@@ -4,13 +4,12 @@ package ru.ftc.android.shifttemple.features.recipes.presentation;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
     RecipeAdapter(Context context, RecipeListener productListener) {
         inflater = LayoutInflater.from(context);
         this.productListener = productListener;
-        clickAnimation = AnimationUtils.loadAnimation(context, R.anim.click_anim);
+        clickAnimation = AnimationUtils.loadAnimation(context, R.anim.card_click_anim);
     }
 
     @NonNull
@@ -61,22 +60,38 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
 
         private final TextView recipeName;
         private final RecipeListener recipeListener;
+        private final RelativeLayout cardLayout;
+        private final TextView description;
+        private final TextView status;
+
 
 
         RecipeHolder(View view, RecipeListener recipeListener) {
             super(view);
             this.recipeListener = recipeListener;
             recipeName = view.findViewById(R.id.recipe_item_name);
-
+            cardLayout = view.findViewById(R.id.card_layout);
+            description = view.findViewById(R.id.short_recipe_description);
+            status = view.findViewById(R.id.recipe_status);
 
             //bookAuthorView = view.findViewById(R.id.book_item_author);
         }
         void bind(final ShortRecipe shortRecipe) {
-
+            description.setText(shortRecipe.getDescription());
+            status.setText(shortRecipe.getStatus());
             recipeName.setText(shortRecipe.getTitle());
-            itemView.setOnClickListener(new View.OnClickListener() {
+
+            /*itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    recipeListener.onRecipeClick(shortRecipe);
+                }
+            });*/
+
+            cardLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    itemView.startAnimation(clickAnimation);
                     recipeListener.onRecipeClick(shortRecipe);
                 }
             });

@@ -3,8 +3,10 @@ package ru.ftc.android.shifttemple.features.recipes.presentation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,13 +39,15 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
     private Button createButton;
 
-    private Button updateButton;
+    private ImageButton updateButton;
 
     private ProgressBar progressBar;
 
     private EditText searchText;
 
     private Button searchButton;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private Gson gson = new Gson();
 
@@ -106,13 +110,32 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
         createButton = findViewById(R.id.create_product_button);
 
-        updateButton  = findViewById(R.id.update_button);
+        updateButton = findViewById(R.id.update_button);
 
         progressBar = findViewById(R.id.progress_bar);
 
         searchButton = findViewById(R.id.search_button);
 
         searchText = findViewById(R.id.search_users);
+
+
+
+
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.println(Log.DEBUG, "Test", "updateButtonClicked");
+                presenter.loadRecipes();
+            }
+        });
+
+
+        mSwipeRefreshLayout.setColorSchemeResources(android.R.color.black,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_red_light);
 
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +210,11 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideSwipeProgress() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     @Override

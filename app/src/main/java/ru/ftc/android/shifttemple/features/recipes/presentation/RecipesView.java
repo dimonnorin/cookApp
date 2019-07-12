@@ -12,6 +12,8 @@ public interface RecipesView extends MvpView {
 
     void hideProgress();
 
+    void hideSwipeProgress();
+
     void showRecipesList(List<ShortRecipe> list);
 
     void showError(String message);

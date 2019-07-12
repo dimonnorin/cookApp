@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import java.util.Set;
 
 import ru.ftc.android.shifttemple.App;
 import ru.ftc.android.shifttemple.R;
+import ru.ftc.android.shifttemple.features.login.domain.model.User;
 import ru.ftc.android.shifttemple.features.recipes.data.RecipesApi;
 import ru.ftc.android.shifttemple.features.recipes.data.RecipesDataSource;
 import ru.ftc.android.shifttemple.features.recipes.data.RecipesDataSourceImpl;
@@ -76,6 +78,8 @@ public class CreateRecipeActivity extends AppCompatActivity {
             Toast.makeText(this, "Enter recipe name", Toast.LENGTH_SHORT).show();
             return;
         }
+        recipe.setCreator(new User("1", "Петя"));
+
         recipe.setTitle(title);
         recipe.setDescription(editDescription.getText().toString());
         ingredients = adapter.getIngredients();
@@ -92,6 +96,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
             try {
                 Integer.parseInt(editIngredientsCount.getText().toString());
                 ingredients.get(i).setCountNeed(editIngredientsCount.getText().toString());
+                ingredients.get(i).setCountHave("0");
             }catch (NumberFormatException exc){
                 Toast.makeText(this, "Wrong count number in " + ingredients.get(i).getName(), Toast.LENGTH_SHORT).show();
                 return;
@@ -99,7 +104,6 @@ public class CreateRecipeActivity extends AppCompatActivity {
             //recipe.setIngredients(ingredients.get(i));
         }
         recipe.setIngredients(ingredients);
-
 
         //TODO когда появиться сервер
         //
@@ -138,9 +142,26 @@ public class CreateRecipeActivity extends AppCompatActivity {
                 adapter.removeItem(ingredient);
             }
         });
+
         recyclerView = findViewById(R.id.ingredients);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CreateRecipeActivity.this, RecipesListActivity.class));
+            }
+        });
+
+
+
 
         final RecipesApi api = App.getRetrofitProvider(this)
                 .getRetrofit()
