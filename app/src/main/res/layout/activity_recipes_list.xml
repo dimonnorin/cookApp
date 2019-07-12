@@ -35,9 +35,9 @@
             android:layout_width="match_parent"
             android:layout_marginBottom="10dp"
             android:paddingTop="10dp"
-            android:paddingBottom="12dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            app:navigationIcon="@drawable/icon_back_arrow_small"
             />
 
         <ImageButton
@@ -45,6 +45,7 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_tool_logo"
             android:layout_alignParentEnd="true"
+
             />
 
     </RelativeLayout>

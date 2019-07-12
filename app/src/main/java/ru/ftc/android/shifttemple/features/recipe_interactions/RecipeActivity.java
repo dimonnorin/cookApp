@@ -63,6 +63,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
     private TextView creatorPhone;
     private ImageButton callCreator;
 
+    private TextView recipeStatus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +103,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         description = findViewById(R.id.recipe_description);
         progressBar = findViewById(R.id.progress_bar);
         updateButton = findViewById(R.id.update_recipe_btn);
+        recipeStatus = findViewById(R.id.recipe_status);
 
         creatorPhone = findViewById(R.id.creator_phone_text);
         callCreator = findViewById(R.id.call_creator);
@@ -151,16 +154,17 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
                     int need = Integer.valueOf(ingredient.getCountNeed());
 
-                    //Log.println(Log.DEBUG, "Test", "Need: " + need + " Have: " + inStock);
+                    Log.println(Log.DEBUG, "Test", "Need: " + need + " Have: " + inStock);
 
                     int total = 0, added = 0;
-                    if ((need - count - inStock) < 0) {
+                    if ((need - count - inStock) <= 0) {
                         total = need;
                         added = need - inStock;
                     } else {
                         total = inStock + count;
                         added = count;
                     }
+
                     //ingredient.setCountHave(String.valueOf(added));
                     Log.println(Log.DEBUG, "Test", "Fly count " + added);
                     AddedIngredient ing =  new AddedIngredient(String.valueOf(added), ingredient.getName());
@@ -283,6 +287,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         recipeName.setText(recipe.getTitle());
         description.setText(recipe.getDescription());
         ingredientAdapter.setItems(recipe.getIngredients());
+        recipeStatus.setText(recipe.getStatus());
 
         //TODO dsfdsfdsfdsfds
         //TODO выпилить при серваке

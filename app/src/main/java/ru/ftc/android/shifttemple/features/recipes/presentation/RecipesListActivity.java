@@ -23,6 +23,7 @@ import ru.ftc.android.shifttemple.R;
 import ru.ftc.android.shifttemple.features.BaseActivity;
 import ru.ftc.android.shifttemple.features.MvpPresenter;
 import ru.ftc.android.shifttemple.features.MvpView;
+import ru.ftc.android.shifttemple.features.login.presentation.LoginActivity;
 import ru.ftc.android.shifttemple.features.recipe_interactions.RecipeActivity;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Recipe;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.ShortRecipe;
@@ -83,7 +84,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.println(Log.DEBUG,"Test", "On result");
-        presenter.loadRecipes();
+        presenter.loadRecipes(false);
 
         //DEB
         if (data == null) {
@@ -97,7 +98,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
             }
         }
         //PROD
-        presenter.loadRecipes();
+        presenter.loadRecipes(false);
         Log.println(Log.DEBUG,"Test", "On create recipe");
         presenter.onRecipeCreate(recipe);
     }
@@ -121,13 +122,23 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
 
 
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RecipesListActivity.this, LoginActivity.class));
+            }
+        });
+
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Log.println(Log.DEBUG, "Test", "updateButtonClicked");
-                presenter.loadRecipes();
+                presenter.loadRecipes(true);
             }
         });
 
@@ -167,7 +178,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
             @Override
             public void onClick(View view) {
                 Log.println(Log.DEBUG, "Test", "updateButtonClicked");
-                presenter.loadRecipes();
+                presenter.loadRecipes(false);
             }
         });
 
@@ -194,7 +205,7 @@ public class RecipesListActivity extends BaseActivity implements RecipesView {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         presenter.attachView(this);
-        presenter.loadRecipes();
+        presenter.loadRecipes(false);
     }
 
     @Override

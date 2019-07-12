@@ -46,7 +46,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
         r.setStatus("ожидание");
         recipesData.add(r);*/
 
-        loadRecipes();
+        loadRecipes(false);
     }
 
 
@@ -103,14 +103,15 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
         //DEB
         recipesData.add(recipe);
         Log.println(Log.DEBUG, "Test", "loadRecipeData");
-        loadRecipes();
+        loadRecipes(false);
     }
 
 
 
-    void loadRecipes() {
+    void loadRecipes(boolean swipe) {
         Log.println(Log.DEBUG, "Test", "loadRecipes");
-        view.showProgress();
+        if(!swipe)
+            view.showProgress();
         //DEB
         view.showRecipesList(recipesData);
         //view.hideProgress();

@@ -100,6 +100,7 @@ public final class IngredientAdapter extends RecyclerView.Adapter<IngredientAdap
                     try {
                         String added = ingredientListener.
                                 onAddIngredient(ingredient, Integer.parseInt(value));
+
                         if(added.equals("0")) return;
 
                         String data = "+" + added;
