@@ -1,12 +1,14 @@
 package ru.ftc.android.shifttemple.features.recipe_interactions;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.ftc.android.shifttemple.features.MvpPresenter;
 import ru.ftc.android.shifttemple.features.login.domain.model.User;
+import ru.ftc.android.shifttemple.features.products.domain.model.Success;
 import ru.ftc.android.shifttemple.features.recipe_interactions.model.MemberIngredients;
 import ru.ftc.android.shifttemple.features.recipes.domain.RecipesInteractor;
 import ru.ftc.android.shifttemple.features.recipes.domain.model.Ingredient;
@@ -33,7 +35,7 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
         view.showProgress();
 
         //DEB
-        /*Log.println(Log.DEBUG, "Test", "loadRecipe");
+        Log.println(Log.DEBUG, "Test", "loadRecipe");
         Recipe r = new Recipe();
         List<User> users = new ArrayList<>();
         users.add(new User("+79833179376", "Bob"));
@@ -43,6 +45,7 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
         r.setMembers(users);
         r.setCreator(new User("+79833179376", "Петя"));
         r.setId(id);
+        r.setStatus("Завершено");
         r.setTitle("Блины");
         r.setDescription("" +
                 "1. Налить в подходящую емкость молоко комнатной температуры, вбить туда яйца, добавить соль и сахар.\n" +
@@ -72,7 +75,7 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
         s.setCountNeed("3");
         ingredients.add(s);
         r.setIngredients(ingredients);
-        view.onLoadRecipe(r);*/
+        view.onLoadRecipe(r);
 
 
         //DEB
@@ -92,6 +95,22 @@ final class RecipePresenter extends MvpPresenter<RecipeView> {
                 view.showError("Check your internet connection.");
             }
         });
+    }
+
+
+    void onDeleteRecipe(String recipeId, String userId){
+
+        interactor.deleteRecipe(recipeId,userId, new Carry<Success>() {
+            @Override
+            public void onSuccess(Success result) {
+                Log.println(Log.DEBUG, "Test", "delete successful");
+            }
+
+            @Override
+            public void onFailure(Throwable throwable) {
+            }
+        });
+
     }
 
 

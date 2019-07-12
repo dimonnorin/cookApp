@@ -24,7 +24,7 @@ public interface RecipesDataSource {
 
     void createRecipe(Recipe recipe, Carry<Recipe> carry);
 
-    void deleteRecipe(String id, Carry<Success> carry);
+    void deleteRecipe(String id, String userId, Carry<Success> carry);
 
 
     void getSearchedRecipes(String search, Carry<List<ShortRecipe>> carry);

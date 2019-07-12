@@ -6,6 +6,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -44,7 +46,8 @@ public interface RecipesApi {
     Call<Recipe> createRecipe(@Body Recipe recipe);//TODO возврат id?
     //TODO или использовать в том числе для обновления информации о рецепте
 
+
     @DELETE("recipe/{id}")
-    Call<Success> deleteRecipe(@Path("id") String id);
+    Call<Success> deleteRecipe(@Path("id") String id, @Header("userId") String userId);
 
 }

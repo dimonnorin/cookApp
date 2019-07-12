@@ -43,8 +43,8 @@ public final class RecipesRepositoryImpl implements RecipesRepository {
     }
 
     @Override
-    public void deleteRecipe(String id, Carry<Success> carry) {
-        dataSource.deleteRecipe(id, carry);
+    public void deleteRecipe(String id,String userId, Carry<Success> carry) {
+        dataSource.deleteRecipe(id, userId, carry);
     }
 
     @Override

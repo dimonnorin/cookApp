@@ -78,7 +78,8 @@ public class CreateRecipeActivity extends AppCompatActivity {
             Toast.makeText(this, "Enter recipe name", Toast.LENGTH_SHORT).show();
             return;
         }
-        recipe.setCreator(new User("1", "Петя"));
+        recipe.setCreator(new User("+78008008080", "Петя"));
+        recipe.setStatus("В ожидании");
 
         recipe.setTitle(title);
         recipe.setDescription(editDescription.getText().toString());
@@ -224,6 +225,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
                                                 addedIngredients.add(checkProductsName[i]);
                                                 ingredients.add(new Ingredient(checkProductsName[i]));
                                             }
+
                                         }
                                         loadIngredients();
                                     }})

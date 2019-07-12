@@ -46,8 +46,8 @@ public final class RecipesDataSourceImpl implements RecipesDataSource {
     }
 
     @Override
-    public void deleteRecipe(String id, Carry<Success> carry) {
-        recipesApi.deleteRecipe(id).enqueue(new DefaultCallback(carry));
+    public void deleteRecipe(String id, String userId, Carry<Success> carry) {
+        recipesApi.deleteRecipe(id, userId).enqueue(new DefaultCallback(carry));
     }
 
     @Override

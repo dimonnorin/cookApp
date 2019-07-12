@@ -31,4 +31,5 @@
     <string name="phone_number1">+79833179376</string>
     <string name="username1">userName</string>
     <string name="contacts">Контакты</string>
+    <string name="complete_button">Завершить</string>
 </resources>

@@ -2,6 +2,7 @@ package ru.ftc.android.shifttemple.features.recipes.presentation;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -79,6 +80,18 @@ final class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHolde
         void bind(final ShortRecipe shortRecipe) {
             description.setText(shortRecipe.getDescription());
             status.setText(shortRecipe.getStatus());
+
+
+
+
+
+            if(shortRecipe.getStatus().compareTo("Завершено") == 0){
+                status.setTextColor(Color.rgb(16, 227, 41));
+            }
+
+
+
+
             recipeName.setText(shortRecipe.getTitle());
 
             /*itemView.setOnClickListener(new View.OnClickListener() {

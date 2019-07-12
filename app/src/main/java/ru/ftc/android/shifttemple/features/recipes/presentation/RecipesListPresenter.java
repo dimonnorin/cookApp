@@ -68,7 +68,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
 
     //TODO реакция на взаимодействие с продуктом
-    void onRecipeDelete(ShortRecipe shortRecipe) {
+    /*void onRecipeDelete(ShortRecipe shortRecipe) {
         Log.println(Log.DEBUG, "Test", "onRecipeDelete");
         interactor.deleteRecipe(shortRecipe.getId(), new Carry<Success>(){
             @Override
@@ -81,7 +81,7 @@ final class RecipesListPresenter extends MvpPresenter<RecipesView> {
 
             }
         });
-    }
+    }*/
 
     /*void loadRecipeData(ShortRecipe shortRecipe){
         Log.println(Log.DEBUG, "Test", "loadRecipeData");

@@ -3,6 +3,7 @@ package ru.ftc.android.shifttemple.features.recipe_interactions;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,9 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
     private String recipeId;
 
+
+    private final String userId = "+78008008080";
+
     private Recipe recipe;
 
     private IngredientAdapter ingredientAdapter;
@@ -64,6 +68,8 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
     private ImageButton callCreator;
 
     private TextView recipeStatus;
+
+    private Button completeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +101,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         addedIngredients.setIngredients(new ArrayList<AddedIngredient>());
 
         //TODO static Pety
-        addedIngredients.setUser(new User("1", "Петя"));
+        addedIngredients.setUser(new User(userId, "Петя"));
 
 
         recipeName = findViewById(R.id.recipe_name);
@@ -107,6 +113,17 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
 
         creatorPhone = findViewById(R.id.creator_phone_text);
         callCreator = findViewById(R.id.call_creator);
+        completeButton = findViewById(R.id.complete_recipe);
+
+
+        completeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.onDeleteRecipe(recipeId, userId);
+                //TODO исправить
+                startActivity(new Intent(RecipeActivity.this, RecipesListActivity.class));
+            }
+        });
 
         callCreator.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -288,7 +305,10 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
         description.setText(recipe.getDescription());
         ingredientAdapter.setItems(recipe.getIngredients());
         recipeStatus.setText(recipe.getStatus());
-
+        if(recipe.getStatus().compareTo("Завершено") == 0){
+            recipeStatus.setTextColor(Color.rgb(16, 227, 41));
+            completeButton.setVisibility(View.VISIBLE);
+        }
         //TODO dsfdsfdsfdsfds
         //TODO выпилить при серваке
         //memberAdapter.setItems(recipe.getMembers());
@@ -298,6 +318,7 @@ public class RecipeActivity extends AppCompatActivity implements RecipeView {
     public void updateRecipe(Recipe recipe) {
         onLoadRecipe(recipe);
     }
+
 
     @Override
     public void showError(String message) {

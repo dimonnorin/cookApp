@@ -39,8 +39,8 @@ public final class RecipesInteractorImpl implements RecipesInteractor {
     }
 
     @Override
-    public void deleteRecipe(String id, Carry<Success> carry) {
-        repository.deleteRecipe(id, carry);
+    public void deleteRecipe(String id,String userId, Carry<Success> carry) {
+        repository.deleteRecipe(id,userId, carry);
     }
 
     @Override

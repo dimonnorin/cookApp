@@ -14,6 +14,7 @@ public interface RecipeView extends MvpView {
 
     void updateRecipe(Recipe recipe);
 
+
     void showError(String message);
 
     void onLoadMembersIngredients(List<MemberIngredients> membersIngredients);

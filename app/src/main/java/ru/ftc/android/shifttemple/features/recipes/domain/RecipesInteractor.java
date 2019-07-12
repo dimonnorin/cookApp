@@ -15,7 +15,7 @@ public interface RecipesInteractor {
 
      void createRecipe(Recipe recipe, Carry<Recipe> carry);
 
-     void deleteRecipe(String id, Carry<Success> carry);
+     void deleteRecipe(String id, String userId, Carry<Success> carry);
 
      void updateRecipe(String id, MemberIngredients ingredients, Carry<List<MemberIngredients>> carry);
 

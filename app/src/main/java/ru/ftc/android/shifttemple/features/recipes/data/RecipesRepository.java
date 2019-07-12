@@ -25,7 +25,7 @@ public interface RecipesRepository {
 
     void getSearchedRecipes(String search, Carry<List<ShortRecipe>> carry);
 
-    void deleteRecipe(String id, Carry<Success> carry);
+    void deleteRecipe(String id,String userId, Carry<Success> carry);
 
     void updateRecipe(String id,MemberIngredients ingredients, Carry<List<MemberIngredients>> carry);
 }
